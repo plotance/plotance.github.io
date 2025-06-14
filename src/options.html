@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Plotance - Options reference</title>
+    <script type="application/yaml">
+     !inclusion
+     selector: head > *:not([charset])
+    </script>
+    <link rel="stylesheet" href="options.css"/>
+  </head>
+  <body>
+    <script type="application/yaml">
+     !inclusion
+     selector: header
+    </script>
+
+    <main>
+      <h1>Options Reference</h1>
+      <p>This document provides a comprehensive reference for all configuration options available in Plotance. These options control the appearance, behavior, and content of presentations, charts, and tables. Options can be specified in YAML format within your source documents.</p>
+
+      <p>The reference is organized into sections covering data types, general options, chart options, and table options. Each section includes detailed descriptions, default values, and examples.</p>
+
+      <section>
+        <h2 id="table-of-contents">Table of Contents</h2>
+        <script type="application/yaml">
+         !table_of_contents
+         {}
+        </script>
+      </section>
+
+      <section>
+        <h2 id="data-types">Data types</h2>
+
+        <p>Option values are specified in the following data types:</p>
+
+        <ul>
+          <li><code>boolean</code>: Either <code>true</code> or <code>false</code>.</li>
+          <li><code>string</code>: Any valid YAML string.</li>
+          <li><code>string+</code>: A YAML sequence of strings or a comma-separated string list.</li>
+          <li><code>integer</code>: One or more digits (<code>[0-9]</code>) preceded by an optional sign.</li>
+          <li><code>number</code>: Either an <code>integer</code> or a decimal number (optional sign, zero or more digits, decimal point, and one or more digits).</li>
+          <li><code>length</code>: Either a unitless <code>0</code> or a <code>number</code> followed by a unit. Valid units include:
+          <ul>
+            <li><code>mm</code>: millimeters</li>
+            <li><code>cm</code>: centimeters</li>
+            <li><code>in</code>: inches (25.4 mm)</li>
+            <li><code>pt</code>: points (1/72 in)</li>
+            <li><code>px</code>: pixels (1/96 in)</li>
+          </ul>
+          </li>
+          <li><code>date</code>: A date in the format <code>yyyy-MM-dd</code> (four-digit year, two-digit month, two-digit day).</li>
+          <li><code>time</code>: A time in the format <code>HH:mm[:ss[.SSS]]</code> (two-digit hour, two-digit minute, optional seconds and fractional seconds).</li>
+          <li><code>date-time</code>: A combined date and time in the format <code>yyyy-MM-dd[THH[:mm[:ss[.SSS]]]]</code>, where <code>T</code>, <code>t</code>, or a space connects the date and time portions.</li>
+          <li><code>color</code>: A color specified in either <code>#RGB</code> or <code>#RRGGBB</code> format (where <code>R</code>, <code>G</code>, and <code>B</code> are hexadecimal digits representing the red, green, and blue components in the sRGB color space), or one of the following theme colors:
+            <ul>
+              <li><code>dark1</code></li>
+              <li><code>dark2</code></li>
+              <li><code>light1</code></li>
+              <li><code>light2</code></li>
+              <li><code>accent1</code></li>
+              <li><code>accent2</code></li>
+              <li><code>accent3</code></li>
+              <li><code>accent4</code></li>
+              <li><code>accent5</code></li>
+              <li><code>accent6</code></li>
+              <li><code>hyperlink</code></li>
+              <li><code>followedHyperlink</code></li>
+            </ul>
+            <p>Note: In YAML syntax, the <code>#</code> character starts a comment, so hexadecimal color values must be enclosed in double quotes.</p>
+          </li>
+          <li><code>color+</code>: A YAML sequence of <code>color</code> values, or a comma-separated string of <code>color</code> values.</li>
+          <li><code>mapping</code>: A YAML mapping (dictionary) of string keys to string values.</li>
+          <li><code>length-weights</code>: A colon-separated list of <code>number</code> or <code>length</code> values.</li>
+          <li><code>axis-unit</code>: A <code>number</code> with an optional time unit. The number and unit may be separated by spaces or tabs. Valid units include <code>days</code>, <code>hours</code>, <code>minutes</code>, <code>mins</code>, <code>seconds</code>, <code>secs</code>, or their singular forms.</li>
+          <li><code>vertical-alignment</code>: One of the following alignment values:
+            <ul>
+              <li><code>top</code> (aligns content to the top of the container)</li>
+              <li><code>center</code> (centers content vertically within the container)</li>
+              <li><code>bottom</code> (aligns content to the bottom of the container)</li>
+            </ul>
+          </li>
+          <li><code>horizontal-alignment</code>: One of the following alignment values:
+            <ul>
+              <li><code>left</code> (aligns content to the left edge)</li>
+              <li><code>center</code> (centers content horizontally)</li>
+              <li><code>right</code> (aligns content to the right edge)</li>
+              <li><code>justified</code> (spreads text evenly across the width, with the last line left-aligned)</li>
+              <li><code>distributed</code> (spreads text evenly across the width, including the last line)</li>
+            </ul>
+            <p>Note: <code>justified</code> alignment does not adjust the spacing of the last line, while <code>distributed</code> alignment adjusts the spacing of all lines including the last one.</p>
+          </li>
+          <li><code>parameter+</code>: A YAML sequence of parameter objects. Each object must have a <code>name</code> key and may optionally include <code>description</code> and <code>default</code> keys, all with string values. The <code>name</code> defines the variable name, and if <code>default</code> is provided, it sets the initial value when not explicitly defined elsewhere. Parameter values take effect from the next block. When using <code>include</code>, parameters in the included file are processed after variables in the current block are expanded, so they don't affect variables in the current block. The <code>description</code> field is purely for documentation purposes.</li>
+          <li><code>auto</code>: The literal keyword <code>auto</code>, indicating automatic determination of a value.</li>
+        </ul>
+
+        <p>Additionally, any option can accept <code>null</code> as a value, which resets the option to its default value.</p>
+      </section>
+
+      <section>
+        <h2 id="general-options">General options</h2>
+
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th><code>include</code></th>
+              <td><code>string</code></td>
+              <td></td>
+              <td><p>Imports content from an external Markdown or YAML file. When including Markdown files (with extensions <code>.md</code>, <code>.markdown</code>, or <code>.txt</code>), the content is inserted before the current block. For YAML files (with extensions <code>.yaml</code> or <code>.yml</code>), the included file is processed first, followed by the current block.</p></td>
+            </tr>
+            <tr>
+              <th><code>output</code></th>
+              <td><code>string</code></td>
+              <td>The input filename with extension changed to <code>.pptx</code></td>
+              <td><p>Specifies the output filename.</p></td>
+            </tr>
+            <tr>
+              <th><code>template</code></th>
+              <td><code>string</code></td>
+              <td></td>
+              <td><p>Specifies the PowerPoint template file to use as the base for the presentation.</p></td>
+            </tr>
+            <tr>
+              <th><code>data_source</code></th>
+              <td><code>string</code></td>
+              <td><code>:memory:</code></td>
+              <td><p>Specifies the DuckDB data source to use. This can be either a file path or <code>:memory:</code> for an in-memory database. When this option is specified, the database is opened immediately. If a database is already open, it will be closed before opening the new one.</p></td>
+            </tr>
+            <tr>
+              <th><code>db_config</code></th>
+              <td><code>mapping</code></td>
+              <td><code>{}</code></td>
+              <td><p>Defines DuckDB configuration options as key-value pairs. For an open database, these are applied using <code>SET</code> statements. Otherwise, they're specified as options when opening the database. When this option appears multiple times in a file, the mappings are merged. If duplicate keys exist, later values override earlier ones and take effect from that point forward.</p></td>
+            </tr>
+            <tr>
+              <th><code>slide_level</code></th>
+              <td><code>integer</code></td>
+              <td><code>2</code></td>
+              <td><p>Determines how heading levels control slide creation. Headings at or below this level trigger new slides. Specifically: headings at the exact <code>slide_level</code> create regular slides; level 1 headings create title slides (unless <code>slide_level</code> is 1); and headings between level 2 and <code>slide_level</code> create section slides.</p></td>
+            </tr>
+            <tr>
+              <th><code>rows</code></th>
+              <td><code>length-weights</code></td>
+              <td></td>
+              <td>
+                <p>Defines the height of each row in the slide using a colon-separated list of <code>number</code> or <code>length</code> values. Numeric values represent relative height proportions, while length values specify exact heights. Values are assigned to rows sequentially in order of appearance. If there are more rows than specified values, the default value <code>1</code> is assigned to the remaining rows. When <code>rows</code> is specified multiple times within a single slide, new values are appended to the existing list of values. The row specifications reset with each new slide; unassigned values do not carry forward.</p>
+                <p>Example:</p>
+                <x-blockcode class="example-box">
+                  <x-l><span class="code-marker">&lt;?</span><span class="code-identifier">plotance</span> <span class="code-key">row_gap</span>: <span class="code-string">1cm</span><span class="code-marker">?&gt;</span></x-l>
+                  <x-l><span class="code-marker">&lt;?</span><span class="code-identifier">plotance</span> <span class="code-key">rows</span>: <span class="code-string">1:2</span><span class="code-marker">?&gt;</span></x-l>
+                  <x-l>a</x-l>
+                  <x-l></x-l>
+                  <x-l>b</x-l>
+                  <x-l></x-l>
+                  <x-l>c</x-l>
+                  <x-l></x-l>
+                  <x-l><span class="code-marker">&lt;?</span><span class="code-identifier">plotance</span> <span class="code-key">rows</span>: <span class="code-string">3cm:3</span><span class="code-marker">?&gt;</span></x-l>
+                  <x-l>d</x-l>
+                </x-blockcode>
+                <p>In this example, rows <code>a</code>, <code>b</code>, <code>c</code>, and <code>d</code> are assigned values 1, 2, 1, and 3 cm respectively. For a slide with total usable height of 10 cm, Plotance first allocates 3 cm to row <code>d</code> (its explicit length value), then reserves 1 cm for each of the three row gaps (totaling 3 cm). The remaining 4 cm is then distributed among rows <code>a</code>, <code>b</code>, and <code>c</code> according to their relative proportions (1:2:1), resulting in heights of 1 cm, 2 cm, and 1 cm respectively.</p>
+              </td>
+            </tr>
+            <tr>
+              <th><code>columns</code></th>
+              <td><code>length-weights</code></td>
+              <td><code>1</code></td>
+              <td>
+                <p>Defines the width distribution and count of columns within a row using a colon-separated list of <code>number</code> or <code>length</code> values. Numeric values indicate relative proportions, while length values specify exact widths. Plotance assigns these values sequentially to columns as they appear. When the number of visible content blocks matches the length of this list, a new row automatically begins. You can specify different column configurations for each row. Unlike with rows, if you specify a new <code>columns</code> value in the middle of a row, it completely replaces the previous configuration rather than appending to it. Column specifications reset at the beginning of each new slide.</p>
+                <p>Width calculations follow the same principles as row height calculations, with <code>column_gap</code> being used to determine spacing between columns.</p>
+              </td>
+            </tr>
+
+            <tr>
+              <th><code>row_gap</code></th>
+              <td><code>length</code></td>
+              <td><code>0</code></td>
+              <td><p>Specifies the vertical spacing between adjacent rows in the slide layout. A value of <code>0</code> results in no gap between rows.</p></td>
+            </tr>
+            <tr>
+              <th><code>column_gap</code></th>
+              <td><code>length</code></td>
+              <td><code>0</code></td>
+              <td><p>Defines the horizontal spacing between adjacent columns in the slide layout. A value of <code>0</code> results in no gap between columns.</p></td>
+            </tr>
+            <tr>
+              <th><code>body_horizontal_align</code></th>
+              <td><code>horizontal-alignment</code></td>
+              <td><code>left</code></td>
+              <td>
+                <p>Controls the horizontal text alignment within content blocks. Supports the following values:</p>
+                <ul>
+                  <li><code>left</code> (aligns content to the left edge)</li>
+                  <li><code>center</code> (centers content horizontally)</li>
+                  <li><code>right</code> (aligns content to the right edge)</li>
+                  <li><code>justified</code> (spreads text evenly across the width, with the last line left-aligned)</li>
+                  <li><code>distributed</code> (spreads text evenly across the width, including the last line)</li>
+                </ul>
+                <p>Note: <code>justified</code> alignment does not adjust the spacing of the last line, while <code>distributed</code> alignment adjusts the spacing of all lines including the last one.</p>
+              </td>
+            </tr>
+            <tr>
+              <th><code>body_vertical_align</code></th>
+              <td><code>vertical-alignment</code></td>
+              <td><code>top</code></td>
+              <td>
+                <p>Controls the vertical positioning of content within blocks. Accepts the following values:</p>
+                <ul>
+                  <li><code>top</code> (aligns content to the top of the container)</li>
+                  <li><code>center</code> (centers content vertically within the container)</li>
+                  <li><code>bottom</code> (aligns content to the bottom of the container)</li>
+                </ul>
+              </td>
+            </tr>
+
+            <tr>
+              <th><code>body_font_scale</code></th>
+              <td><code>number</code></td>
+              <td><code>1</code></td>
+              <td><p>Applies a scaling factor to the base body text font size. For example, a value of <code>1.5</code> increases the font size by 50%. This setting automatically resets at the beginning of each new slide.</p></td>
+            </tr>
+            <tr>
+              <th><code>title_font_scale</code></th>
+              <td><code>number</code></td>
+              <td><code>1</code></td>
+              <td><p>Applies a scaling factor to the base title font size. For example, a value of <code>0.8</code> reduces the font size by 20%. Unlike body font scaling, this setting only affects subsequent slides, not the current one.</p></td>
+            </tr>
+            <tr>
+              <th><code>language</code></th>
+              <td><code>string</code></td>
+              <td></td>
+              <td><p>Specifies the language for text content using RFC 4646/BCP 47 language codes (for example, <code>en-US</code>, <code>fr-FR</code>, <code>ja-JP</code>). This affects text rendering, hyphenation, and spell-checking behavior in PowerPoint.</p></td>
+            </tr>
+            <tr>
+              <th><code>query_file</code></th>
+              <td><code>string</code></td>
+              <td></td>
+              <td><p>Specifies a file containing DuckDB SQL queries to execute. When both <code>query_file</code> and <code>query</code> options are provided, the SQL statements in this file are executed first, followed by those in the <code>query</code> option.</p></td>
+            </tr>
+            <tr>
+              <th><code>query</code></th>
+              <td><code>string</code></td>
+              <td></td>
+              <td><p>Contains inline DuckDB SQL queries to execute. When both <code>query_file</code> and <code>query</code> options are provided, the inline queries specified here are executed after processing the <code>query_file</code>.</p></td>
+            </tr>
+            <tr>
+              <th><code>parameters</code></th>
+              <td><code>parameter+</code></td>
+              <td><code>[]</code></td>
+              <td><p>Defines variables that can be referenced throughout the document. This option takes a YAML sequence of parameter objects, each containing a required <code>name</code> key and optional <code>description</code> and <code>default</code> keys (all with string values). The <code>name</code> defines the variable identifier, while <code>default</code> provides an initial value if one isn't explicitly set elsewhere. Parameter values become effective starting from the next block. When using <code>include</code> to import other files, parameters in the included file are processed after variable expansion in the current block, so they don't affect variables referenced in the current block. The <code>description</code> field serves documentation purposes only and doesn't affect processing.</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2 id="chart-options">Chart options</h2>
+
+        <div><picture><source srcset="chart_options_dark.svg" media="(prefers-color-scheme: dark)"/><img src="chart_options.svg" alt=""/></picture></div>
+
+        <section>
+          <h3 id="general-chart-options">General chart options</h3>
+
+          <p>General chart options control the overall appearance and behavior of the entire chart. These include settings such as <code>format</code> (chart type), <code>series_colors</code> (color palette), <code>line_color</code> (stroke color), and <code>fill_opacity</code> (transparency).</p>
+
+          <p>Options with the <code>chart_title_*</code> pattern control the appearance and text of the chart's title.</p>
+        </section>
+
+        <section>
+          <h3 id="axis-options">Axis options</h3>
+
+          <p>Axis options configure the properties of the X and Y axes, including their scales, labels, titles, and associated gridlines.</p>
+
+          <p>Most axis options use a prefix of either <code>x_</code> or <code>y_</code> to indicate which axis they affect. Options without these prefixes apply to both axes simultaneously.</p>
+
+          <p>The axis range can be configured using <code>*_axis_range_minimum</code> and <code>*_axis_range_maximum</code> options, where <code>*</code> is either <code>x</code> or <code>y</code>.</p>
+
+          <p>Axis titles are set using <code>x_axis_title</code> and <code>y_axis_title</code>, while <code>axis_title_*</code> options control the font sizes and colors of both axis titles.</p>
+
+          <p>Label formatting is managed through <code>*_axis_label_*</code> options for each axis individually, while <code>axis_label_*</code> options control the font sizes and colors of labels on both axes.</p>
+
+          <p>The thickness of axis lines is controlled by <code>x_axis_line_width</code> and <code>y_axis_line_width</code>, while their color is set collectively using <code>axis_line_color</code>.</p>
+
+          <p>Tick mark spacing is defined with <code>*_axis_major_unit</code> and <code>*_axis_minor_unit</code> options for major and minor divisions.</p>
+
+          <p>For logarithmic scales, <code>x_axis_log_base</code> and <code>y_axis_log_base</code> specify the logarithm base.</p>
+
+          <p>Axis direction can be inverted using the <code>x_axis_reversed</code> and <code>y_axis_reversed</code> boolean options.</p>
+
+          <p>Gridlines are configured with <code>*_axis_grid_major_width</code> and <code>*_axis_grid_minor_width</code> options to set line thickness, while <code>grid_major_color</code> and <code>grid_minor_color</code> control the colors of major and minor gridlines for both axes.</p>
+        </section>
+
+        <section>
+          <h3 id="legend-options">Legend options</h3>
+
+          <p>Legend options control the appearance and positioning of the chart legend, which identifies the data series displayed in the chart.</p>
+
+          <p>To hide the legend completely, set <code>legend_position</code> to <code>none</code>. Otherwise, you can position the legend at various locations around the chart using options described in the detailed chart options table below.</p>
+        </section>
+
+        <section>
+          <h3 id="data-label-options">Data label options</h3>
+
+          <p>Data label options control the display and formatting of labels that show specific values directly on the data points in your chart.</p>
+
+          <p>To disable data labels completely, set <code>data_label_position</code> to <code>none</code>. When enabled, you can configure their position, content format, and appearance using the options described in the detailed chart options table below.</p>
+        </section>
+
+        <section>
+          <h3 id="all-chart-options">All available chart options</h3>
+
+          <table>
+            <thead>
+              <tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th><code>format</code></th>
+                <td><code>string</code></td>
+                <td><code>bar</code></td>
+                <td>
+                  <p>Determines the visualization type for the chart. Accepts the following values:</p>
+                  <ul>
+                    <li><code>bar</code> - Creates a bar chart (default)</li>
+                    <li><code>line</code> - Creates a line chart (implemented as a scatter plot with connected lines)</li>
+                    <li><code>area</code> - Creates an area chart</li>
+                    <li><code>scatter</code> - Creates a scatter plot</li>
+                    <li><code>bubble</code> - Creates a bubble chart</li>
+                    <li><code>none</code> - Suppresses chart rendering completely</li>
+                  </ul>
+                  <p>When <code>none</code> is specified, the option block won't be counted as a column in the row.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><code>series_colors</code></th>
+                <td><code>color+</code></td>
+                <td>Theme accent colors</td>
+                <td><p>Defines the color palette used for data series in the chart. Colors can be specified using either:</p>
+                <ul>
+                  <li>Hexadecimal format: <code>#RGB</code> or <code>#RRGGBB</code> where <code>R</code>, <code>G</code>, and <code>B</code> are hexadecimal digits representing the red, green, and blue components in the sRGB color space</li>
+                  <li>Theme color keywords:
+                    <ul>
+                      <li><code>dark1</code> - Primary dark theme color</li>
+                      <li><code>dark2</code> - Secondary dark theme color</li>
+                      <li><code>accent1</code> through <code>accent6</code> - Theme accent colors 1-6</li>
+                      <li><code>hyperlink</code> - Theme hyperlink color</li>
+                      <li><code>followed_hyperlink</code> - Theme color for visited hyperlinks</li>
+                    </ul>
+                  </li>
+                </ul>
+
+                <p>Colors can be specified either as a YAML sequence of values or as a comma-separated string list.</p>
+                <p>Note: In YAML syntax, the <code>#</code> character begins a comment, so hexadecimal color values must be enclosed in double quotes (e.g., <code>"#FF0000"</code>).</p>
+                </td>
+              </tr>
+              <tr>
+                <th><code>group_by_series</code></th>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td><p>Controls the organization of data in the chart. When set to <code>true</code>, the first column is interpreted as series names, and subsequent columns become categories within each series.</p>
+                <p>Note: This feature is not yet implemented.</p></td>
+              </tr>
+              <tr>
+                <th><code>bar_grouping</code></th>
+                <td><code>string</code></td>
+                <td><code>clustered</code></td>
+                <td><p>Determines the arrangement of bars within a bar chart. Accepts the following values:</p>
+                <ul>
+                  <li><code>clustered</code> - Positions bars from different series side by side (default)</li>
+                  <li><code>stacked</code> - Stacks bars from different series on top of each other</li>
+                  <li><code>percent_stacked</code> - Stacks bars and normalizes each stack to 100%, showing proportional contributions</li>
+                </ul>
+                <p>This option only applies to bar charts.</p></td>
+              </tr>
+              <tr>
+                <th><code>bar_direction</code></th>
+                <td><code>string</code></td>
+                <td><code>vertical</code></td>
+                <td><p>Controls the orientation of bars in bar charts. Accepts the following values:</p>
+                <ul>
+                  <li><code>vertical</code> - Renders bars growing upward from the x-axis (default)</li>
+                  <li><code>horizontal</code> - Renders bars growing rightward from the y-axis</li>
+                </ul>
+                <p>This option only applies to bar charts.</p></td>
+              </tr>
+              <tr>
+                <th><code>bar_gap</code></th>
+                <td><code>integer</code></td>
+                <td><code>20</code></td>
+                <td><p>Sets the spacing between adjacent groups of bars, expressed as a percentage of the bar width. Valid values range from 0 (no gap) to 500 (very large gaps).</p>
+                <p>This option only applies to bar charts.</p></td>
+              </tr>
+              <tr>
+                <th><code>bar_overlap</code></th>
+                <td><code>integer</code></td>
+                <td><code>0</code> for clustered bar charts, <code>100</code> for stacked/percent_stacked bar charts</td>
+                <td><p>Controls how bars within the same category group overlap or separate from each other, expressed as a percentage of the bar width. Valid values range from -100 to 100:</p>
+                <ul>
+                  <li><code>0</code>: Bars are positioned adjacent to each other without overlap or gap (default for clustered bar charts)</li>
+                  <li><code>100</code>: Bars completely overlap (default for stacked/percent_stacked bar charts)</li>
+                  <li>Negative values: Creates additional spacing between bars within the same group</li>
+                </ul>
+                <p>This option only applies to bar charts.</p></td>
+              </tr>
+              <tr>
+                <th><code>line_width</code></th>
+                <td><code>length</code></td>
+                <td><code>1pt</code> for line charts, <code>0</code> for others</td>
+                <td><p>Controls the thickness of linear elements in the chart. For line charts, this determines the width of the data lines. For other chart types, it specifies the border width of visual elements such as bars, areas, or markers.</p></td>
+              </tr>
+              <tr>
+                <th><code>line_color</code></th>
+                <td><code>color</code> or <code>auto</code></td>
+                <td></td>
+                <td><p>Defines the color of linear elements in the chart. When set to <code>auto</code> or left unspecified, colors are automatically assigned from the <code>series_colors</code> palette for each data series.</p></td>
+              </tr>
+              <tr>
+                <th><code>fill_opacity</code></th>
+                <td><code>number</code></td>
+                <td><code>1</code></td>
+                <td><p>Controls the transparency level of filled regions in the chart. Values range from <code>0</code> (completely transparent) to <code>1</code> (completely opaque). This setting particularly affects area charts and other chart types with filled elements such as bars or bubble markers.</p></td>
+              </tr>
+              <tr>
+                <th><code>chart_title</code></th>
+                <td><code>string</code></td>
+                <td></td>
+                <td><p>Specifies the text to display as the chart's title, positioned above the chart area. When left unspecified, no title will be rendered.</p></td>
+              </tr>
+              <tr>
+                <th><code>chart_title_font_size</code></th>
+                <td><code>length</code></td>
+                <td><code>18pt</code></td>
+                <td><p>Sets the font size for the chart title text.</p></td>
+              </tr>
+              <tr>
+                <th><code>chart_title_color</code></th>
+                <td><code>color</code></td>
+                <td></td>
+                <td><p>Defines the text color for the chart title. When unspecified, the default color from the active theme is used.</p></td>
+              </tr>
+              <tr>
+                <th><code>x_axis_range_minimum</code></th>
+                <td><code>number</code>, <code>date</code>, <code>time</code>, <code>date-time</code>, or <code>auto</code></td>
+                <td><code>auto</code></td>
+                <td>
+                  <p>Defines the lower boundary value for the X-axis range. When set to <code>auto</code> or left unspecified, this value is calculated automatically based on the dataset's minimum value.</p>
+                  <p>For date and time values, use the following formats:</p>
+                  <ul>
+                    <li>Date: <code>yyyy-MM-dd</code></li>
+                    <li>Time: <code>HH:mm[:ss[.SSS]]</code> (you cannot omit minutes)</li>
+                    <li>Date-time: <code>yyyy-MM-dd[THH[:mm[:ss[.SSS]]]]</code> where the separator <code>T</code> can be represented as <code>T</code>, <code>t</code>, or a space character</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><code>x_axis_range_maximum</code></th>
+                <td><code>number</code>, <code>date</code>, <code>time</code>, <code>date-time</code>, or <code>auto</code></td>
+                <td><code>auto</code></td>
+                <td>
+                  <p>Defines the upper boundary value for the X-axis range. When set to <code>auto</code> or left unspecified, this value is calculated automatically based on the dataset's maximum value.</p>
+                  <p>For date and time values, use the following formats:</p>
+                  <ul>
+                    <li>Date: <code>yyyy-MM-dd</code></li>
+                    <li>Time: <code>HH:mm[:ss[.SSS]]</code> (you cannot omit minutes)</li>
+                    <li>Date-time: <code>yyyy-MM-dd[THH[:mm[:ss[.SSS]]]]</code> where the separator <code>T</code> can be represented as <code>T</code>, <code>t</code>, or a space character</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><code>x_axis_title</code></th>
+                <td><code>string</code></td>
+                <td></td>
+                <td><p>Specifies the descriptive text to display below the X-axis. When left unspecified, no axis title will be rendered.</p></td>
+              </tr>
+              <tr>
+                <th><code>x_axis_label_format</code></th>
+                <td><code>string</code></td>
+                <td><code>auto</code></td>
+                <td><p>Controls the display format of X-axis tick labels using <a href="https://support.microsoft.com/en-us/office/review-guidelines-for-customizing-a-number-format-c0a1d1fa-d3f4-4018-96b7-9c9354dd99f5">Excel format codes</a>. When set to <code>auto</code>, the format is automatically determined based on the data type.</p></td>
+              </tr>
+              <tr>
+                <th><code>x_axis_label_rotate</code></th>
+                <td><code>number</code></td>
+                <td><code>0</code></td>
+                <td><p>Sets the rotation angle for X-axis labels, specified in degrees. Positive values produce clockwise rotation.</p></td>
+              </tr>
+              <tr>
+                <th><code>x_axis_line_width</code></th>
+                <td><code>length</code></td>
+                <td><code>1pt</code></td>
+                <td><p>Controls the thickness of the X-axis line. Setting this value to <code>0</code> effectively hides the axis line.</p></td>
+              </tr>
+              <tr>
+                <th><code>x_axis_major_unit</code></th>
+                <td><code>axis-unit</code></td>
+                <td></td>
+                <td><p>Defines the interval between major tick marks on the X-axis. When left unspecified, the interval is calculated automatically based on the data range. For temporal data, the value can include appropriate time units (<code>days</code>, <code>hours</code>, <code>minutes</code>/<code>mins</code>, <code>seconds</code>/<code>secs</code>, or their singular forms).</p></td>
+              </tr>
+              <tr>
+                <th><code>x_axis_minor_unit</code></th>
+                <td><code>axis-unit</code></td>
+                <td></td>
+                <td><p>Defines the interval between minor tick marks on the X-axis. When left unspecified, the interval is calculated automatically. For temporal data, the value can include appropriate time units (<code>days</code>, <code>hours</code>, <code>minutes</code>/<code>mins</code>, <code>seconds</code>/<code>secs</code>, or their singular forms).</p></td>
+              </tr>
+              <tr>
+                <th><code>x_axis_log_base</code></th>
+                <td><code>number</code></td>
+                <td></td>
+                <td><p>Enables logarithmic scaling for the X-axis using the specified base value. When this option is set, the axis will display values on a logarithmic scale.</p></td>
+              </tr>
+              <tr>
+                <th><code>x_axis_reversed</code></th>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td><p>Controls the direction of the X-axis. When set to <code>true</code>, the axis direction is reversed (right-to-left instead of the standard left-to-right).</p></td>
+              </tr>
+              <tr>
+                <th><code>x_axis_grid_major_width</code></th>
+                <td><code>length</code></td>
+                <td><code>0</code></td>
+                <td><p>Defines the thickness of major gridlines associated with the X-axis. Setting this value to <code>0</code> will hide major gridlines completely.</p></td>
+              </tr>
+              <tr>
+                <th><code>x_axis_grid_minor_width</code></th>
+                <td><code>length</code></td>
+                <td><code>0</code></td>
+                <td><p>Controls the thickness of minor gridlines associated with the X-axis. Setting this value to <code>0</code> will hide minor gridlines completely.</p></td>
+              </tr>
+              <tr>
+                <th><code>y_axis_range_minimum</code></th>
+                <td><code>number</code>, <code>date</code>, <code>time</code>, <code>date-time</code>, or <code>auto</code></td>
+                <td><code>auto</code></td>
+                <td>
+                  <p>Defines the lower boundary value for the Y-axis range. When set to <code>auto</code> or left unspecified, this value is calculated automatically based on the dataset's minimum value.</p>
+                  <p>For date and time values, use the following formats:</p>
+                  <ul>
+                    <li>Date: <code>yyyy-MM-dd</code></li>
+                    <li>Time: <code>HH:mm[:ss[.SSS]]</code> (you cannot omit minutes)</li>
+                    <li>Date-time: <code>yyyy-MM-dd[THH[:mm[:ss[.SSS]]]]</code> where the separator <code>T</code> can be represented as <code>T</code>, <code>t</code>, or a space character</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><code>y_axis_range_maximum</code></th>
+                <td><code>number</code>, <code>date</code>, <code>time</code>, <code>date-time</code>, or <code>auto</code></td>
+                <td><code>auto</code></td>
+                <td>
+                  <p>Defines the upper boundary value for the Y-axis range. When set to <code>auto</code> or left unspecified, this value is calculated automatically based on the dataset's maximum value.</p>
+                  <p>For date and time values, use the following formats:</p>
+                  <ul>
+                    <li>Date: <code>yyyy-MM-dd</code></li>
+                    <li>Time: <code>HH:mm[:ss[.SSS]]</code> (you cannot omit minutes)</li>
+                    <li>Date-time: <code>yyyy-MM-dd[THH[:mm[:ss[.SSS]]]]</code> where the separator <code>T</code> can be represented as <code>T</code>, <code>t</code>, or a space character</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><code>y_axis_title</code></th>
+                <td><code>string</code></td>
+                <td></td>
+                <td><p>Specifies the descriptive text to display alongside the Y-axis. When left unspecified, no axis title will be rendered.</p></td>
+              </tr>
+              <tr>
+                <th><code>y_axis_label_format</code></th>
+                <td><code>string</code></td>
+                <td><code>auto</code></td>
+                <td><p>Controls the display format of Y-axis tick labels using <a href="https://support.microsoft.com/en-us/office/review-guidelines-for-customizing-a-number-format-c0a1d1fa-d3f4-4018-96b7-9c9354dd99f5">Excel format codes</a>. When set to <code>auto</code>, the format is automatically determined based on the data type.</p></td>
+              </tr>
+              <tr>
+                <th><code>y_axis_label_rotate</code></th>
+                <td><code>number</code></td>
+                <td><code>0</code></td>
+                <td><p>Sets the rotation angle for Y-axis labels, specified in degrees. Positive values produce clockwise rotation.</p></td>
+              </tr>
+              <tr>
+                <th><code>y_axis_line_width</code></th>
+                <td><code>length</code></td>
+                <td><code>1pt</code></td>
+                <td><p>Controls the thickness of the Y-axis line. Setting this value to <code>0</code> effectively hides the axis line.</p></td>
+              </tr>
+              <tr>
+                <th><code>y_axis_major_unit</code></th>
+                <td><code>axis-unit</code></td>
+                <td></td>
+                <td><p>Defines the interval between major tick marks on the Y-axis. When left unspecified, the interval is calculated automatically based on the data range. For temporal data, the value can include appropriate time units (<code>days</code>, <code>hours</code>, <code>minutes</code>/<code>mins</code>, <code>seconds</code>/<code>secs</code>, or their singular forms).</p></td>
+              </tr>
+              <tr>
+                <th><code>y_axis_minor_unit</code></th>
+                <td><code>axis-unit</code></td>
+                <td></td>
+                <td><p>Defines the interval between minor tick marks on the Y-axis. When left unspecified, the interval is calculated automatically. For temporal data, the value can include appropriate time units (<code>days</code>, <code>hours</code>, <code>minutes</code>/<code>mins</code>, <code>seconds</code>/<code>secs</code>, or their singular forms).</p></td>
+              </tr>
+              <tr>
+                <th><code>y_axis_log_base</code></th>
+                <td><code>number</code></td>
+                <td></td>
+                <td><p>Enables logarithmic scaling for the Y-axis using the specified base value. When this option is set, the axis will display values on a logarithmic scale rather than a linear one.</p></td>
+              </tr>
+              <tr>
+                <th><code>y_axis_reversed</code></th>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td><p>Controls the direction of the Y-axis. When set to <code>true</code>, the axis direction is reversed (top-to-bottom instead of the standard bottom-to-top).</p></td>
+              </tr>
+              <tr>
+                <th><code>y_axis_grid_major_width</code></th>
+                <td><code>length</code></td>
+                <td><code>0</code></td>
+                <td><p>Defines the thickness of major gridlines associated with the Y-axis. Setting this value to <code>0</code> will hide major gridlines completely.</p></td>
+              </tr>
+              <tr>
+                <th><code>y_axis_grid_minor_width</code></th>
+                <td><code>length</code></td>
+                <td><code>0</code></td>
+                <td><p>Controls the thickness of minor gridlines associated with the Y-axis. Setting this value to <code>0</code> will hide minor gridlines completely.</p></td>
+              </tr>
+              <tr>
+                <th><code>axis_title_font_size</code></th>
+                <td><code>length</code></td>
+                <td><code>14pt</code></td>
+                <td><p>Sets the font size for all axis titles in the chart.</p></td>
+              </tr>
+              <tr>
+                <th><code>axis_title_color</code></th>
+                <td><code>color</code></td>
+                <td></td>
+                <td><p>Defines the text color for all axis titles in the chart. When left unspecified, the default color from the active theme is used.</p></td>
+              </tr>
+              <tr>
+                <th><code>axis_label_font_size</code></th>
+                <td><code>length</code></td>
+                <td><code>14pt</code></td>
+                <td><p>Controls the font size for all axis tick labels in the chart.</p></td>
+              </tr>
+              <tr>
+                <th><code>axis_label_color</code></th>
+                <td><code>color</code></td>
+                <td></td>
+                <td><p>Defines the text color for all axis tick labels in the chart. When left unspecified, the default color from the active theme is used.</p></td>
+              </tr>
+              <tr>
+                <th><code>axis_line_color</code></th>
+                <td><code>color</code></td>
+                <td><code>dark1</code></td>
+                <td><p>Specifies the color for all axis lines in the chart.</p></td>
+              </tr>
+              <tr>
+                <th><code>grid_major_color</code></th>
+                <td><code>color</code></td>
+                <td><code>dark1</code></td>
+                <td><p>Controls the color of all major gridlines in the chart.</p></td>
+              </tr>
+              <tr>
+                <th><code>grid_minor_color</code></th>
+                <td><code>color</code></td>
+                <td><code>dark1</code></td>
+                <td><p>Controls the color of all minor gridlines in the chart.</p></td>
+              </tr>
+              <tr>
+                <th><code>legend_position</code></th>
+                <td><code>string</code></td>
+                <td><code>right</code></td>
+                <td>
+                  <p>Defines the position of the legend relative to the chart area. The following values are supported:</p>
+                  <ul>
+                    <li><code>top</code> - Positions the legend above the chart area</li>
+                    <li><code>bottom</code> - Positions the legend below the chart area</li>
+                    <li><code>left</code> - Positions the legend to the left of the chart area</li>
+                    <li><code>right</code> - Positions the legend to the right of the chart area (default)</li>
+                    <li><code>top_right</code> - Positions the legend in the top-right corner of the chart area</li>
+                    <li><code>none</code> - Hides the legend completely</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><code>legend_line_width</code></th>
+                <td><code>length</code></td>
+                <td><code>0</code></td>
+                <td><p>Controls the thickness of the border surrounding the legend box. Setting this value to <code>0</code> removes the border completely.</p></td>
+              </tr>
+              <tr>
+                <th><code>legend_line_color</code></th>
+                <td><code>color</code></td>
+                <td><code>dark1</code></td>
+                <td><p>Specifies the color of the border surrounding the legend box.</p></td>
+              </tr>
+              <tr>
+                <th><code>legend_font_size</code></th>
+                <td><code>length</code></td>
+                <td><code>14pt</code></td>
+                <td><p>Controls the font size of all text entries within the legend.</p></td>
+              </tr>
+              <tr>
+                <th><code>legend_color</code></th>
+                <td><code>color</code></td>
+                <td></td>
+                <td><p>Defines the text color for all entries in the legend. When unspecified, the default color from the active theme is used.</p></td>
+              </tr>
+              <tr>
+                <th><code>data_label_position</code></th>
+                <td><code>string</code></td>
+                <td><code>none</code></td>
+                <td>
+                  <p>Controls the placement of data value labels relative to each data point on the chart.</p>
+                  <p>For bar charts, the following positions are supported:</p>
+                  <ul>
+                    <li><code>none</code> - Disables data labels entirely (default)</li>
+                    <li><code>center</code> - Places labels in the center of each bar</li>
+                    <li><code>inside_center</code> - Alias of <code>center</code></li>
+                    <li><code>inside_end</code> - Places labels inside each bar, near the end point</li>
+                    <li><code>inside_base</code> - Places labels inside each bar, near the base point</li>
+                    <li><code>outside_end</code> - Places labels outside each bar, near the end point</li>
+                  </ul>
+
+                  <p>For scatter, bubble, or line charts, the following positions are supported:</p>
+                  <ul>
+                    <li><code>none</code> - Disables data labels entirely (default)</li>
+                    <li><code>center</code> - Centers labels on each data point</li>
+                    <li><code>left</code> - Positions labels to the left of each data point</li>
+                    <li><code>right</code> - Positions labels to the right of each data point</li>
+                    <li><code>above</code> - Positions labels above each data point</li>
+                    <li><code>below</code> - Positions labels below each data point</li>
+                  </ul>
+
+                  <p>Note: Area charts do not support data label positioning. Although <code>inside_center</code> and <code>center</code> values are accepted, they have no effect.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><code>data_label_contents</code></th>
+                <td><code>string+</code></td>
+                <td><code>value</code></td>
+                <td>
+                  <p>Specifies what information to display in data labels. This can be provided as either a list of strings or a comma-separated string value. The following content types are supported:</p>
+                  <ul>
+                    <li><code>x_value</code> - Shows the X-axis value</li>
+                    <li><code>y_value</code> - Shows the Y-axis value (default)</li>
+                    <li><code>legend_key</code> - Shows the legend key identifying the data series</li>
+                    <li><code>series_name</code> - Shows the full name of the data series</li>
+                    <li><code>percent</code> - Shows the data point as a percentage of the total</li>
+                    <li><code>bubble_size</code> - Shows the size value for the bubble</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th><code>data_label_format</code></th>
+                <td><code>string</code></td>
+                <td><code>auto</code></td>
+                <td><p>Controls the display format of data labels using <a href="https://support.microsoft.com/en-us/office/review-guidelines-for-customizing-a-number-format-c0a1d1fa-d3f4-4018-96b7-9c9354dd99f5">Excel format codes</a>. When set to <code>auto</code>, the format is automatically determined based on the data type.</p></td>
+              </tr>
+              <tr>
+                <th><code>data_label_rotate</code></th>
+                <td><code>number</code></td>
+                <td><code>0</code></td>
+                <td><p>Sets the rotation angle for all data labels, specified in degrees. Positive values produce clockwise rotation.</p></td>
+              </tr>
+              <tr>
+                <th><code>data_label_font_size</code></th>
+                <td><code>length</code></td>
+                <td><code>14pt</code></td>
+                <td><p>Controls the font size of all data labels in the chart.</p></td>
+              </tr>
+              <tr>
+                <th><code>data_label_color</code></th>
+                <td><code>color</code></td>
+                <td></td>
+                <td><p>Defines the text color for all data labels in the chart. When left unspecified, the default color from the active theme is used.</p></td>
+              </tr>
+              <tr>
+                <th><code>marker_size</code></th>
+                <td><code>length</code></td>
+                <td><code>5pt</code></td>
+                <td>
+                  <p>Controls the diameter of data point markers in line and scatter plots. Setting this value to <code>0</code> will hide markers completely.</p>
+                  <p>Note: This option only affects line and scatter plots. It has no effect on other chart types.</p>
+                </td>
+              </tr>
+              <tr>
+                <th><code>marker_line_width</code></th>
+                <td><code>length</code></td>
+                <td><code>0</code> for scatter plots, <code>line_width</code> for bubble charts</td>
+                <td><p>Defines the thickness of the border surrounding each marker. Setting this value to <code>0</code> removes the border completely.</p></td>
+              </tr>
+              <tr>
+                <th><code>marker_fill_opacity</code></th>
+                <td><code>number</code></td>
+                <td><code>1</code> for scatter plots, <code>fill_opacity</code> for bubble charts</td>
+                <td><p>Controls the transparency level of marker fill colors. Values range from <code>0</code> (completely transparent) to <code>1</code> (completely opaque).</p></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+
+      <section>
+        <h2 id="table-options">Table options</h2>
+
+        <p>The <code>table_rows</code> and <code>table_columns</code> options control the number and size of rows and columns in the table. Additional styling options can be applied to specific regions of the table. These regions are identified by the following prefixes:</p>
+        <ul>
+          <li><code>table</code>: Applies to the entire table</li>
+          <li><code>first_row</code>: Applies to the header row (topmost row)</li>
+          <li><code>first_column</code>: Applies to the leftmost column</li>
+          <li><code>last_row</code>: Applies to the bottom row</li>
+          <li><code>last_column</code>: Applies to the rightmost column</li>
+          <li><code>band1_row</code>: Applies to odd-numbered rows (counting from 1)</li>
+          <li><code>band2_row</code>: Applies to even-numbered rows (counting from 1)</li>
+          <li><code>band1_column</code>: Applies to odd-numbered columns (counting from 1)</li>
+          <li><code>band2_column</code>: Applies to even-numbered columns (counting from 1)</li>
+          <li><code>northwest_cell</code>: Applies to the top-left cell</li>
+          <li><code>northeast_cell</code>: Applies to the top-right cell</li>
+          <li><code>southwest_cell</code>: Applies to the bottom-left cell</li>
+          <li><code>southeast_cell</code>: Applies to the bottom-right cell</li>
+        </ul>
+
+        <div><picture><source srcset="table_regions_dark.svg" media="(prefers-color-scheme: dark)"/><img src="table_regions.svg" alt=""/></picture></div>
+
+        <p>Each table region can be styled using the following option patterns, where <code>*</code> is replaced by the region name:</p>
+
+        <ul>
+          <li><code>*_background_color</code>: Sets the background color of cells in the region</li>
+          <li><code>*_font_weight</code>: Controls text boldness in the region</li>
+          <li><code>*_font_color</code>: Sets the text color in the region</li>
+          <li><code>*_cell_left_margin</code>: Sets the left padding inside cells of the region</li>
+          <li><code>*_cell_right_margin</code>: Sets the right padding inside cells of the region</li>
+          <li><code>*_cell_top_margin</code>: Sets the top padding inside cells of the region</li>
+          <li><code>*_cell_bottom_margin</code>: Sets the bottom padding inside cells of the region</li>
+          <li><code>*_cell_horizontal_align</code>: Controls horizontal text alignment in the region</li>
+          <li><code>*_cell_vertical_align</code>: Controls vertical text alignment in the region</li>
+          <li>
+            <p>Border options follow the pattern <code>*_{border_position}_border_{border_property}</code>, where <code>{border_position}</code> can be:</p>
+
+            <ul>
+              <li><code>left</code>: Left edge borders</li>
+              <li><code>right</code>: Right edge borders</li>
+              <li><code>top</code>: Top edge borders</li>
+              <li><code>bottom</code>: Bottom edge borders</li>
+              <li><code>inside_horizontal</code>: Internal horizontal borders (between rows)</li>
+              <li><code>inside_vertical</code>: Internal vertical borders (between columns)</li>
+            </ul>
+
+            <p>And <code>{border_property}</code> can be:</p>
+
+            <ul>
+              <li><code>width</code>: Border thickness</li>
+              <li><code>color</code>: Border color</li>
+              <li><code>style</code>: Border line style (single, double, etc.)</li>
+            </ul>
+          </li>
+        </ul>
+
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th><code>table_rows</code></th>
+              <td><code>length-weights</code></td>
+              <td></td>
+              <td>
+                <p>Controls the height distribution of rows within a table using a colon-separated list of <code>number</code> or <code>length</code> values. Numeric values indicate relative proportions, while length values specify exact heights. These values are assigned sequentially to all rows, including the header row. If there are more rows than specified values, the default value <code>1</code> is assigned to any remaining rows.</p>
+                <p>Example: With <code>table_rows: 1:2:3cm</code> applied to a table containing 4 rows, the values 1, 2, 3 cm, and 1 are assigned to the rows in order. In a table with 7 cm total height, Plotance first allocates 3 cm to the third row (its explicit length value). The remaining 4 cm is then distributed among the first, second, and fourth rows according to their relative proportions (1:2:1), resulting in heights of 1 cm, 2 cm, and 1 cm respectively.</p>
+              </td>
+            </tr>
+            <tr>
+              <th><code>table_columns</code></th>
+              <td><code>length-weights</code></td>
+              <td></td>
+              <td>
+                <p>Controls the width distribution of columns within a table using a colon-separated list of <code>number</code> or <code>length</code> values. Numeric values indicate relative proportions, while length values specify exact widths. These values are assigned sequentially to columns as they appear in the table. If there are more columns than specified values, the default value <code>1</code> is assigned to any remaining columns.</p>
+                <p>Width calculations follow the same principles as row height calculations. Explicit length values are allocated first, and then any remaining space is distributed proportionally according to the relative numeric values.</p>
+              </td>
+            </tr>
+            <script type="application/yaml">
+             !inclusion
+             template: table_options.tsx
+            </script>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <script type="application/yaml">
+     !inclusion
+     selector: footer
+    </script>
+  </body>
+</html>

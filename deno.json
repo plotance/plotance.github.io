@@ -1,0 +1,29 @@
+{
+  "tasks": {
+    "build": "rm -rf site && deno --allow-read=src,template,site --allow-write=site --allow-env=LOG_TOKENS,LOG_STREAM main.ts",
+    "format": "find . '(' -name '*.tsx' -or -name '*.ts' ')' -exec prettier --write '{}' '+'"
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "hastscript"
+  },
+  "imports": {
+    "@std/fs": "jsr:@std/fs@^1.0.17",
+    "@std/path": "jsr:@std/path@^1.0.9",
+    "hast": "npm:hast@^1.0.0",
+    "hast-util-from-html": "npm:hast-util-from-html@^2.0.3",
+    "hast-util-select": "npm:hast-util-select@^6.0.4",
+    "hast-util-to-string": "npm:hast-util-to-string@^3.0.1",
+    "hastscript": "npm:hastscript@^9.0.1",
+    "hastscript/jsx-runtime": "npm:hastscript@^9.0.1/jsx-runtime",
+    "rehype": "npm:rehype@^13.0.2",
+    "rehype-format": "npm:rehype-format@^5.0.1",
+    "rehype-stringify": "npm:rehype-stringify@^10.0.0",
+    "stringify-entities": "npm:stringify-entities@^4.0.4",
+    "to-vfile": "npm:to-vfile@^8.0.0",
+    "unist": "npm:unist@^0.0.1",
+    "unist-util-visit": "npm:unist-util-visit@^5.0.0",
+    "vfile": "npm:vfile@^6.0.3",
+    "yaml": "npm:yaml@^2.8.0"
+  }
+}

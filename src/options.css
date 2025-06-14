@@ -1,0 +1,29 @@
+@media (max-width: 45rem) {
+  table, tbody, tr, th, td {
+    display: block;
+    border-style: none;
+    padding: 0;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    padding-top: 1em;
+  }
+
+  td {
+    padding-left: 1em;
+  }
+
+  td:nth-of-type(1)::before {
+    content: "Type: ";
+    font-weight: bold;
+  }
+
+  td:nth-of-type(2)::before {
+    content: "Default: ";
+    font-weight: bold;
+  }
+}

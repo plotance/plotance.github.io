@@ -1,0 +1,69 @@
+# Plotance Trademark Policy
+
+Last updated: 2025-06-14
+
+This document describes the trademark policy for the Plotance project and its associated logo (“the Plotance Marks”).
+
+
+## 1. Purpose
+
+The Plotance name and logo are important identifiers for the community and users. This policy aims to enable broad community use while reducing confusion and protecting the integrity of the project.
+
+
+## 2. The Plotance Marks
+
+This policy covers the following trademarks:
+
+- The word “Plotance”, in any style or capitalization
+- The Plotance logo:
+  - ![Plotance logo for light background](https://plotance.github.io/logo.svg)
+  - ![Plotance logo for dark background](https://plotance.github.io/logo_white.svg)
+
+## 3. Permitted Uses (No Written Permission Needed)
+
+You may use the Plotance Marks, **without prior written permission**, for the following purposes:
+
+- **Referential Use:** To refer to, describe, or link to the official Plotance open source project, website, documentation, application programs, or compatible/derivative projects. Example: “This tool is compatible with Plotance.”
+
+- **Community and Educational Use:** To talk about Plotance in news articles, blog posts, talks, or educational materials, as long as your use does not imply endorsement or official affiliation.
+
+
+## 4. Prohibited Uses (Always Require Explicit Permission)
+
+**You may NOT**, without explicit written permission:
+
+- Use the Plotance Marks (or confusingly similar names/logos) in the name, logo, or branding of your own product, service, organization, company, domain name, or social media handle/page.
+  Examples: “Plotance Pro”, “Plotance for Business”, “plotance-tools.com”, “@plotance-support” (Twitter handle)
+
+- Use or modify the Plotance logo as part of another logo, or make derivative logos based on it.
+
+- Sell merchandise using the Plotance Marks (t-shirts, mugs, etc.) or otherwise use them for commercial purposes.
+
+- Use the Plotance Marks in a way that suggests official endorsement, sponsorship, or affiliation, unless you have received explicit permission.
+
+
+## 5. Proper Use Guidelines
+
+- **Do not alter the Plotance Marks.** Please use official assets as published by the project.
+- **Keep clear space** around the logo and do not combine it with other images or marks.
+- **Include attribution** when practical:
+
+  > Plotance and the Plotance logo are trademarks of the Plotance project. This project is not endorsed by, or affiliated with, Plotance.
+
+- **Avoid misleading usage:** Never use the Marks in a way that could cause confusion about whether your project/service is officially supported or produced by Plotance.
+
+
+## 6. Questions, Permission Requests, and Reporting Abuse
+
+If you wish to:
+
+- Use the Plotance Marks in a way not covered here,
+- Request explicit permission,
+- Report misuse,
+
+Please email: plotance_trademarks@tatapa.org
+
+
+## 7. Policy Updates
+
+We may revise this policy in the future as the project evolves. All changes will be published at https://plotance.github.io/trademark_policy.html.

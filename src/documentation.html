@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Plotance - Documentation</title>
+    <script type="application/yaml">
+     !inclusion
+     selector: head > *:not([charset])
+    </script>
+    <link rel="stylesheet" href="documentation.css"/>
+  </head>
+  <body>
+    <script type="application/yaml">
+     !inclusion
+     selector: header
+    </script>
+
+    <main>
+      <h1>Plotance Guide</h1>
+
+      <section>
+        <h2 id="table-of-contents">Table of Contents</h2>
+        <script type="application/yaml">
+         !table_of_contents
+         {}
+        </script>
+      </section>
+
+      <section>
+        <h2 id="in-a-nutshell">In a nutshell</h2>
+
+        <p>Plotance is a cross-platform command-line tool converting Markdown with SQL into plain editable PowerPoint presentations with charts, powered by DuckDB.</p>
+
+        <p>Markdown documents are segmented into slides based on headings. Each slide is divided into rows and each row is divided into columns, which display either Markdown blocks or charts. Column count and sizing are specified with option blocks within the Markdown.</p>
+
+        <p>You can configure slides, charts, and queries using either special code blocks containing YAML or XML processing instructions. These two notation methods are functionally equivalent and interchangeable.</p>
+
+        <p>For an overview of features and syntax, please refer to the <a href="examples.html">Examples</a> page.</p>
+      </section>
+
+      <section>
+        <h2 id="installation">Installation, invocation, and uninstallation</h2>
+
+        <p>Plotance is a single binary executable that can be put in an arbitrary location and run from the command line. For more details, please refer to the <a href="downloads.html">Downloads</a> page.</p>
+
+        <p>At its simplest, you only need to specify an input filename. In the example below, <code>slide.pptx</code> will be generated:</p>
+
+        <p>Windows:</p>
+        <x-blockcode class="example-box">
+          <x-l><span class="code-identifier">.\plotance</span> slide.md</x-l>
+        </x-blockcode>
+
+        <p>Linux or macOS:</p>
+        <x-blockcode class="example-box">
+          <x-l><span class="code-identifier">./plotance</span> slide.md</x-l>
+        </x-blockcode>
+
+        <p>To uninstall, remove the executable file along with the following folders:</p>
+        <ul>
+          <li>Linux or macOS: <code>$HOME/.net/plotance</code></li>
+          <li>Windows: <code>%TEMP%/.net/plotance</code></li>
+        </ul>
+
+        <p>If the environment variable <var>DOTNET_BUNDLE_EXTRACT_BASE_DIR</var> is defined, remove the <code>plotance</code> directory under it instead.</p>
+
+        <section>
+          <h3 id="building-from-source">Building from source</h3>
+
+          <p>To build and run from source, follow these steps:</p>
+
+          <x-blockcode class="example-box">
+            <x-l><span class="code-identifier">git</span> <span class="code-identifier">clone</span> https://github.com/plotance/plotance.git</x-l>
+            <x-l><span class="code-identifier">cd</span> plotance</x-l>
+            <x-l><span class="code-identifier">dotnet</span> <span class="code-identifier">build</span></x-l>
+            <x-l><span class="code-identifier">dotnet</span> Plotance/bin/Release/net8.0/plotance.dll <span class="code-keyword">--version</span></x-l>
+          </x-blockcode>
+
+          <p>To create a single binary executable, use the following commands:</p>
+
+          <x-blockcode class="example-box">
+            <x-l><span class="code-identifier">dotnet</span> <span class="code-identifier">publish</span></x-l>
+            <x-l><span class="code-identifier">./Plotance/bin/Release/net8.0/linux-x64/publish/plotance</span> <span class="code-keyword">--version</span></x-l>
+          </x-blockcode>
+
+          <p>Run <code>create_release_archives.ps1</code> in PowerShell to create release ZIP archives for all platforms.</p>
+        </section>
+
+        <section>
+          <h3 id="command-line-options">Command line options</h3>
+        </section>
+
+        <p>The command line takes the following form:</p>
+
+        <x-blockcode>
+          <x-l>plotance [OPTION]... INPUT.md</x-l>
+        </x-blockcode>
+
+        <p><code>OPTION</code> is a list of command-line options, described in the following table:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>-o</code>, <code>--output=OUTPUT.pptx</code></td>
+              <td>Output filename. Defaults to the input filename with the extension changed to <code>.pptx</code>.</td>
+            </tr>
+            <tr>
+              <td><code>--template=TEMPLATE.pptx</code></td>
+              <td>Template .pptx file.</td>
+            </tr>
+            <tr>
+              <td><code>--db-config=NAME=VALUE</code></td>
+              <td>DuckDB options.</td>
+            </tr>
+            <tr>
+              <td><code>--arg</code>, <code>--argument=NAME=VALUE</code></td>
+              <td>Parameter values. Can be referenced in SQL using the <code>getvariable</code> function. In Markdown, use <code>${NAME}</code> syntax.</td>
+            </tr>
+            <tr>
+              <td><code>-v</code>, <code>--verbose</code>, <code>--verbosity=[LEVEL]</code></td>
+              <td>Specifies the log level. Possible values: <code>Quiet</code>, <code>Q</code>, <code>Minimal</code>, <code>M</code>, <code>Normal</code>, <code>N</code>, <code>Detailed</code>, <code>D</code>, <code>Diagnostic</code>, <code>Diag</code>. All values except <code>Diagnostic</code> and <code>Diag</code> are equivalent. If <code>LEVEL</code> is omitted, defaults to <code>Diagnostic</code>.</td>
+            </tr>
+            <tr>
+              <td><code>--version</code></td>
+              <td>Display version information.</td>
+            </tr>
+            <tr>
+              <td><code>--help</code></td>
+              <td>Display help information.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2 id="markdown-overview">Plotance Markdown</h2>
+
+        <p>Plotance uses Markdown to represent slides. There are some special rules, syntax, and limitations to be aware of.</p>
+
+        <section>
+          <h3 id="splitting-document">Splitting Document into Slides</h3>
+
+          <p>Documents are segmented into slides using headings or thematic breaks (horizontal rules). A heading creates a slide break when its level is less than or equal to the value of <code>slide_level</code> option. The behavior varies depending on this value:</p>
+
+          <ul>
+            <li>
+              <p>With <code>slide_level: 1</code>:</p>
+              <ul>
+                <li>Level 1 headings: Start a regular slide.</li>
+                <li>Level 2+ headings: Treated as regular text blocks within the slide.</li>
+              </ul>
+            </li>
+            <li>
+              <p>With <code>slide_level: 2</code> (default):</p>
+              <ul>
+                <li>Level 1 headings: Start a title slide.</li>
+                <li>Level 2 headings: Start a regular slide.</li>
+                <li>Level 3+ headings: Treated as regular text blocks within the slide.</li>
+              </ul>
+            </li>
+            <li>
+              <p>With <code>slide_level: 3</code>:</p>
+              <ul>
+                <li>Level 1 headings: Start a title slide.</li>
+                <li>Level 2 headings: Start a section title slide.</li>
+                <li>Level 3 headings: Start a regular slide.</li>
+                <li>Level 4+ headings: Treated as regular text blocks within the slide.</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 id="layout-inside-slides">Layout inside Slides</h3>
+
+          <p>Each slide is structured with rows and columns. You can control the number of columns and their relative widths using the <code>columns</code> option. This option can be specified independently for each row.</p>
+
+          <div><picture><source srcset="rows_and_columns_dark.svg" media="(prefers-color-scheme: dark)"/><img src="rows_and_columns.svg" alt=""/></picture></div>
+
+          <p>For instance, <code>columns: 1:2:1</code> designates three columns with widths in a 1:2:1 ratio. You can also specify absolute dimensions alongside ratios. With <code>columns: 1cm:2:1</code>, the first column is fixed at 1 cm wide, while the remaining space is divided in a 2:1 ratio between the other columns.</p>
+
+          <p>Similarly, you can use the <code>rows</code> option to specify height ratios or lengths for rows.</p>
+
+          <p>Both <code>columns</code> and <code>rows</code> options are reset for each slide.</p>
+
+          <p>Content blocks are classified as either visible or invisible. Only visible blocks are counted as columns. The following elements are treated as invisible (all others are visible):</p>
+          <ul>
+            <li>HTML comments</li>
+            <li>HTML DOCTYPE declaration</li>
+            <li>HTML processing instructions</li>
+            <li>Config blocks without queries</li>
+            <li>Config blocks with queries and <code>format: none</code></li>
+          </ul>
+
+          <p>Example: The following will split the slide vertically in a 3:1 ratio and horizontally in a 1:3:1 ratio:</p>
+
+          <x-blockcode class="example-box">
+            <x-l><span class="code-marker">&lt;?</span><span class="code-identifier">plotance</span> <span class="code-key">rows</span>: <span class="code-string">3:1</span> <span class="code-marker">?&gt;</span></x-l>
+            <x-l><span class="code-marker">&lt;?</span><span class="code-identifier">plotance</span> <span class="code-key">columns</span>: <span class="code-string">1:3:1</span> <span class="code-marker">?&gt;</span></x-l>
+            <x-l></x-l>
+            <x-l>row 1 column 1</x-l>
+            <x-l></x-l>
+            <x-l>row 1 column 2</x-l>
+            <x-l></x-l>
+            <x-l>row 1 column 3</x-l>
+            <x-l></x-l>
+            <x-l>row 2 column 1</x-l>
+            <x-l></x-l>
+            <x-l>row 2 column 2</x-l>
+            <x-l></x-l>
+            <x-l>row 3 column 3</x-l>
+          </x-blockcode>
+
+          <p>Example: The following will create a single column in the first row and three columns in the second row:</p>
+
+          <x-blockcode class="example-box">
+            <x-l><span class="code-marker">&lt;?</span><span class="code-identifier">plotance</span> <span class="code-key">rows</span>: <span class="code-string">3:1</span> <span class="code-marker">?&gt;</span></x-l>
+            <x-l><span class="code-marker">&lt;?</span><span class="code-identifier">plotance</span> <span class="code-key">columns</span>: <span class="code-string">1</span> <span class="code-marker">?&gt;</span></x-l>
+            <x-l></x-l>
+            <x-l>row 1 column 1</x-l>
+            <x-l></x-l>
+            <x-l><span class="code-marker">&lt;?</span><span class="code-identifier">plotance</span> <span class="code-key">columns</span>: <span class="code-string">1:3:1</span> <span class="code-marker">?&gt;</span></x-l>
+            <x-l></x-l>
+            <x-l>row 2 column 1</x-l>
+            <x-l></x-l>
+            <x-l>row 2 column 2</x-l>
+            <x-l></x-l>
+            <x-l>row 2 column 3</x-l>
+          </x-blockcode>
+
+        </section>
+
+        <section>
+          <h3 id="restrictions">Restrictions</h3>
+
+          <p>While Plotance accepts the CommonMark documents, it has certain restrictions imposed by PowerPoint's underlying architecture:</p>
+
+          <ul>
+            <li><p>Blocks cannot be nested within other blocks. Nested lists are allowed as an exception.</p></li>
+            <li>
+              <p>Images can be used only in the following cases; general inline images are not supported:</p>
+              <ul>
+                <li><p>As the only child element of a top-level paragraph.</p></li>
+                <li><p>As the only child element of a link that is the only child element of a top-level paragraph.</p></li>
+              </ul>
+            </li>
+            <li><p>General HTML elements cannot be embedded.</p></li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <h2 id="option-blocks">Option blocks</h2>
+
+        <p>Configuration options for charts and global Plotance settings can be embedded using either code blocks or XML processing instructions. All options are parsed as YAML. For example:</p>
+        <x-blockcode class="example-box">
+          <x-l><span class="code-marker">```</span><span class="code-identifier">plotance</span></x-l>
+          <x-l><span class="code-key">slide_level</span>: <span class="code-string">1</span></x-l>
+          <x-l><span class="code-key">db_config</span>:</x-l>
+          <x-l>  <span class="code-key">http_proxy</span>: <span class="code-string">https://proxy.example.com/</span></x-l>
+          <x-l><span class="code-key">template</span>: <span class="code-string">template.pptx</span></x-l>
+          <x-l><span class="code-key">parameters</span>:</x-l>
+          <x-l>  - <span class="code-key">name</span>: <span class="code-string">year</span></x-l>
+          <x-l>    <span class="code-key">description</span>: <span class="code-string">Report year (yyyy).</span></x-l>
+          <x-l>    <span class="code-key">default</span>: <span class="code-string">2025</span></x-l>
+          <x-l>  - <span class="code-key">name</span>: <span class="code-string">month</span></x-l>
+          <x-l>    <span class="code-key">description</span>: <span class="code-string">Report month (MM).</span></x-l>
+          <x-l>    <span class="code-key">default</span>: <span class="code-string">01</span></x-l>
+          <x-l>```</x-l>
+          <x-l></x-l>
+          <x-l><span class="code-marker">&lt;?</span><span class="code-identifier">plotance</span> <span class="code-key">rows</span>: <span class="code-string">3:1</span> <span class="code-marker">?&gt;</span></x-l>
+          <x-l></x-l>
+          <x-l><span class="code-marker">```</span><span class="code-identifier">plotance</span></x-l>
+          <x-l><span class="code-key">format</span>: <span class="code-string">bar</span></x-l>
+          <x-l><span class="code-key">query_file</span>: <span class="code-string">query.sql</span></x-l>
+          <x-l><span class="code-key">query</span>: <span class="code-marker">|</span></x-l>
+          <x-l>  <span class="code-keyword">SELECT</span> * <span class="code-keyword">FROM</span> <span class="code-string">'data.csv'</span></x-l>
+          <x-l><span class="code-marker">```</span></x-l>
+        </x-blockcode>
+
+        <p>Options specified alongside <code>query</code> or <code>query_file</code> apply only to that specific block. All other options remain in effect throughout the document unless explicitly mentioned.</p>
+
+        <p>For details of options, please refer to the <a href="options.html">options reference</a>.</p>
+
+        <p>Single-line XML processing instructions are automatically enclosed in <code>{</code> and <code>}</code> braces if not already present. The following examples are all equivalent:</p>
+        <x-blockcode class="example-box">
+          <x-l><span class="code-marker">&lt;?</span><span class="code-identifier">plotance</span> <span class="code-key">rows</span>: <span class="code-string">3:1</span>, <span class="code-key">columns</span>: <span class="code-string">1:3:1</span> <span class="code-marker">?&gt;</span></x-l>
+          <x-l></x-l>
+          <x-l><span class="code-marker">&lt;?</span><span class="code-identifier">plotance</span> { <span class="code-key">rows</span>: <span class="code-string">3:1</span>, <span class="code-key">columns</span>: <span class="code-string">1:3:1</span> } <span class="code-marker">?&gt;</span></x-l>
+          <x-l></x-l>
+          <x-l><span class="code-marker">```</span><span class="code-identifier">plotance</span></x-l>
+          <x-l><span class="code-key">rows</span>: <span class="code-string">3:1</span></x-l>
+          <x-l><span class="code-key">columns</span>: <span class="code-string">1:3:1</span></x-l>
+          <x-l><span class="code-marker">```</span></x-l>
+        </x-blockcode>
+
+        <p>In multi-line XML processing instructions, Plotance automatically removes the minimum indentation from the second line onward (empty lines are excluded from this calculation). These examples are all equivalent:</p>
+        <x-blockcode class="example-box">
+          <x-l><span class="code-marker">&lt;?</span><span class="code-identifier">plotance</span></x-l>
+          <x-l>  <span class="code-key">rows</span>: <span class="code-string">3:1</span></x-l>
+          <x-l>  <span class="code-key">columns</span>: <span class="code-string">1:3:1</span></x-l>
+          <x-l><span class="code-marker">?&gt;</span></x-l>
+          <x-l></x-l>
+          <x-l><span class="code-marker">&lt;?</span><span class="code-identifier">plotance</span> <span class="code-key">rows</span>: <span class="code-string">3:1</span></x-l>
+          <x-l>           <span class="code-key">columns</span>: <span class="code-string">1:3:1</span> <span class="code-marker">?&gt;</span></x-l>
+          <x-l></x-l>
+          <x-l><span class="code-marker">```</span><span class="code-identifier">plotance</span></x-l>
+          <x-l><span class="code-key">rows</span>: <span class="code-string">3:1</span></x-l>
+          <x-l><span class="code-key">columns</span>: <span class="code-string">1:3:1</span></x-l>
+          <x-l><span class="code-marker">```</span></x-l>
+        </x-blockcode>
+
+        <p>Option blocks only take effect when they appear at the top level of the document.</p>
+      </section>
+
+      <section>
+        <h2 id="parameters">Parameters</h2>
+        <p>Parameters are variables that can be referenced from the document, option blocks, and queries. You can define parameter values either through the command-line option <code>--arg</code> or the <code>parameters</code> option within the document. Command-line parameters take precedence over document-defined parameters with the same name. When multiple definitions for the same parameter name exist within a document, only the first definition is applied.</p>
+
+        <p>Example of <code>parameters</code> option:</p>
+        <x-blockcode class="example-box">
+          <x-l><span class="code-marker">```</span><span class="code-identifier">plotance</span></x-l>
+          <x-l><span class="code-key">parameters</span>:</x-l>
+          <x-l>  - <span class="code-key">name</span>: <span class="code-string">year</span></x-l>
+          <x-l>    <span class="code-key">description</span>: <span class="code-string">The year of charts.</span></x-l>
+          <x-l>    <span class="code-key">default</span>: <span class="code-string">2025</span></x-l>
+          <x-l>  - <span class="code-key">name</span>: <span class="code-string">month</span></x-l>
+          <x-l>    <span class="code-key">description</span>: <span class="code-string">The month of charts.</span></x-l>
+          <x-l>    <span class="code-key">default</span>: <span class="code-string">01</span></x-l>
+          <x-l><span class="code-marker">```</span></x-l>
+        </x-blockcode>
+
+        <p>Parameters can be used in the following places:</p>
+
+        <ul>
+          <li>In Markdown text. Syntax: <code>${name}</code></li>
+          <li>In YAML of option blocks. Syntax: <code>${name}</code></li>
+          <li>In SQL statements. Syntax: <code>getvariable('name')</code></li>
+        </ul>
+
+        <p>Within Markdown text and YAML option blocks, parameters are referenced using the <code>${name}</code> syntax. During processing, these references are replaced with the actual value of the parameter named <var>name</var>. This substitution happens after the parsing of Markdown and YAML, so the expanded text is not re-interpreted as Markdown or YAML. Parameter references are not processed recursively. However, <code>default</code> values defined in the <code>parameters</code> section do support parameter expansion like other YAML values. Any references to undefined parameters remain as literal text in the output.</p>
+        <p>A special parameter named <var>$</var> expands to the string <code>$</code>.</p>
+      </section>
+
+      <section>
+        <h2 id="template-files">Template Files</h2>
+
+        <p>Plotance supports using an existing PowerPoint file (.pptx) as a template. When you specify a template, Plotance creates a copy, removes all existing slides, and inserts the newly generated slides based on your Markdown content. The system utilizes the following slide layouts from the template's first slide master:</p>
+
+        <ul>
+          <li>Title Slide</li>
+          <li>Title and Content</li>
+          <li>Section Header</li>
+        </ul>
+
+        <section>
+          <h3 id="template-file-details">Technical Details</h3>
+          <p>Plotance picks slide layouts where the <code>sldLayout</code> element has a <code>type</code> attribute of <code>title</code>, <code>obj</code>, or <code>secHead</code>. If these specific layouts aren't present in the template, Plotance falls back to default layouts.</p>
+
+          <p>Headings are placed in placeholders where the <code>ph</code> element has a <code>type</code> attribute of either <code>ctrTitle</code> or <code>title</code>.</p>
+
+          <p>All other content is inserted into placeholders that either have an <code>index</code> attribute of 1 or a <code>type</code> attribute of <code>obj</code>, <code>chart</code>, <code>dgm</code>, <code>tbl</code>, <code>subTitle</code>, or <code>body</code>.</p>
+        </section>
+      </section>
+
+      <section>
+        <h2 id="chart-formats">Chart formats</h2>
+
+        <p>Chart formats are specified using the <code>format</code> option. The following formats are currently supported:</p>
+
+        <ul>
+          <li><code>bar</code>: Bar chart (vertical/horizontal)</li>
+          <li><code>scatter</code>: Scatter plot, line chart</li>
+          <li><code>bubble</code>: Bubble chart</li>
+          <li><code>area</code>: Area chart</li>
+          <li><code>table</code>: Table</li>
+          <li><code>combination</code>: Combination chart (not implemented yet)</li>
+          <li><code>small_multiple</code>: Small multiple (not implemented yet)</li>
+          <li><code>none</code>: Do not output anything</li>
+        </ul>
+
+        <p>Each chart format requires a specific query result structure. The sections below describe each format and its corresponding expected query result format.</p>
+
+        <section>
+          <h3 id="chart-format-bar"><code>bar</code></h3>
+
+          <p>Visualizes values for each category as the height of rectangular bars. For multiple data series, bars are displayed side by side within each category group.</p>
+          <p>Expected query result format: <code>Category Name,Series 1 Value,Series 2 Value,...</code></p>
+
+          <p>Specific options for bar charts (for other options, refer to the <a href="options.html">options reference</a>):</p>
+
+          <ul>
+            <li><code>bar_direction</code>: Bar direction. Either <code>horizontal</code> or <code>vertical</code>. Default is <code>vertical</code>.</li>
+            <li><code>bar_grouping</code>: Bar grouping method. One of <code>clustered</code> (side by side), <code>stacked</code> (stacked vertically), or <code>percent_stacked</code> (stacked vertically as percentages of the total). Default is <code>clustered</code>.</li>
+            <li><code>bar_gap</code>: Specifies the gap between bar groups as a percentage of the bar width. Must be between 0 and 500.</li>
+            <li><code>bar_overlap</code>: Specifies how much bars within the same group overlap, as a percentage of the bar width. Must be between -100 and 100.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 id="chart-format-scatter"><code>scatter</code></h3>
+
+          <p>Visualizes Y-coordinate values against X-coordinate values as positions of points on a plane. Points belonging to the same series can optionally be connected with lines.</p>
+
+          <p>Expected query result format: <code>X-coordinate Value,Series 1 Y-coordinate Value,Series 2 Y-coordinate Value,...</code></p>
+
+          <p>To connect points with lines, set the <code>line_width</code> parameter to any value greater than <code>0</code>.</p>
+
+          <p>Control the size of data points using the <code>marker_size</code> parameter. Setting this to <code>0</code> hides the markers entirely, showing only the connecting lines if enabled.</p>
+        </section>
+
+        <section>
+          <h3 id="chart-format-line"><code>line</code></h3>
+
+          <p>Visualizes changes in Y-coordinate values across X-coordinate values using connected lines. While visually appearing as a line chart, this is technically implemented as a scatter plot with modified defaults rather than PowerPoint's native line chart. The differences from the standard scatter plot are:</p>
+
+          <ul>
+            <li>The default value of <code>line_width</code> is <code>1pt</code> instead of <code>0</code>.</li>
+            <li>The default values of <code>x_axis_range_minimum</code> and <code>x_axis_range_maximum</code> are the minimum and maximum values of the X-axis values.</li>
+          </ul>
+
+          <p>Expected query result format: <code>X-coordinate Value,Series 1 Y-coordinate Value,Series 2 Y-coordinate Value,...</code></p>
+
+          <p>Why we don't use PowerPoint's native line chart: PowerPoint's built-in line chart functions more like a bar chart internally, restricting X-axis values to categories or dates. For proper data visualization, a line chart's X-axis should be continuous quantitative values. For categorical X-axis data, a bar chart is generally more appropriate, while for quantitative X-axis data, a scatter plot provides better representation. A rare exception where categorical X-axis line charts make sense is when the visualization can be interpreted as multiple <a href="https://observablehq.com/@d3/slope-chart/3">slope charts</a> connected horizontally. In most scenarios, however, using one or more bar charts or scatter plots yields more accurate visualizations.</p>
+        </section>
+
+        <section>
+          <h3 id="chart-format-bubble"><code>bubble</code></h3>
+
+          <p>Visualizes triples of X-coordinate, Y-coordinate, and scalar values as positions and areas of bubbles.</p>
+
+          <p>Expected query result format: <code>X-coordinate Value,Series 1 Y-coordinate Value,Series 1 Bubble Area,Series 2 Y-coordinate Value,Series 2 Bubble Area,...</code></p>
+        </section>
+
+        <section>
+          <h3 id="chart-format-area"><code>area</code></h3>
+
+          <p>Visualizes how the sum of values changes across categories or dates using the width of stacked bands.</p>
+
+          <p>Expected query result format: <code>Category Name,Series 1 Value,Series 2 Value,...</code></p>
+
+          <p>Note: X-axis values are always treated as categories or dates, and the chart is always displayed in stacked format. This chart type is suited for showing how totals change across categories or dates. For other cases, consider bar charts or scatter plots instead.</p>
+        </section>
+
+        <section>
+          <h3 id="chart-format-table"><code>table</code></h3>
+
+          <p>Presents query results as a PowerPoint table instead of a graphical chart.</p>
+
+          <p>Expected query result format: Any.</p>
+
+          <p>For table formatting, refer to the <a href="options.html">options reference</a>.</p>
+        </section>
+
+        <section>
+          <h3 id="chart-format-none"><code>none</code></h3>
+
+          <p>Executes the query without displaying any visual output and doesn't contribute to column count. This is useful for database operations like creating temporary tables, inserting records, or other preparatory SQL that doesn't need visualization.</p>
+        </section>
+      </section>
+
+      <section>
+        <h2 id="markdown-details">Markdown Support Details</h2>
+
+        <section>
+          <h3 id="markdown-details-block">Block-Level Elements</h3>
+          <ul>
+            <li>Horizontal rules: Implemented as page breaks.</li>
+            <li>Headings: Function as page breaks based on the <code>slide_level</code> setting.</li>
+            <li>Code blocks (except Plotance option blocks): Rendered as fixed-width font blocks.</li>
+            <li>HTML comments: Ignored.</li>
+            <li>Other HTML blocks: Not supported.</li>
+            <li>Link reference definitions: Supported.</li>
+            <li>Paragraphs: Supported.</li>
+            <li>Quote blocks: Rendered as standard text blocks without special formatting.</li>
+            <li>Lists: Partially supported. Each list item may contain at most one paragraph followed optionally by one sublist, with this specific ordering requirement.</li>
+            <li>Tables: Limited support planned for future releases.</li>
+            <li>Other non-CommonMark elements: Not supported.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 id="markdown-details-inline">Inline-Level Elements</h3>
+          <ul>
+            <li>Code spans: Supported.</li>
+            <li>Emphasis: Supported.</li>
+            <li>Links: Supported.</li>
+            <li>Images: Supported in two specific cases: (1) when an image is the only content within a top-level paragraph, or (2) when an image is the only content of a link that is itself the only content of a top-level paragraph.</li>
+            <li>Automatic links: Supported.</li>
+            <li>Raw HTML: Not supported.</li>
+            <li>Hard line breaks: Supported.</li>
+            <li>Soft line breaks: Supported and rendered as a standard whitespace.</li>
+            <li>Other non-CommonMark elements: Not supported.</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <h2 id="license">License</h2>
+
+        <p>Plotance is released under the <a href="https://github.com/plotance/plotance/blob/main/LICENSES/MIT.txt">MIT License</a>.</p>
+      </section>
+    </main>
+
+    <script type="application/yaml">
+     !inclusion
+     selector: footer
+    </script>
+  </body>
+</html>

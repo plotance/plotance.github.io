@@ -1,0 +1,38 @@
+version = 1
+# https://reuse.software/spec-3.2/
+
+[[annotations]]
+path = [
+  ".gitignore",
+  "REUSE.toml",
+  "README.md",
+  "deno.json",
+  "deno.lock",
+  "**/*.html",
+  "**/*.css",
+  "**/*.svg",
+  "**/*.png",
+  "**/*.ico",
+  "**/*.md",
+  "**/*.csv",
+  "**/*.csv.gz",
+  "**/*.pptx",
+  "**/*.yml",
+  "**/*.yaml",
+  "**/*.rb",
+]
+SPDX-FileCopyrightText = "2025 Plotance contributors <https://plotance.github.io/>"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+
+[[annotations]]
+path = [
+  "src/favicon.svg",
+  "src/favicon.ico",
+  "src/apple-touch-icon.png",
+  "src/logo.svg",
+  "src/logo_white.svg",
+  "src/thumbnail.png",
+]
+SPDX-FileCopyrightText = "2025 Plotance contributors <https://plotance.github.io/>"
+SPDX-License-Identifier = "LicenseRef-PlotanceTrademarks"

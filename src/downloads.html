@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Plotance - Downloads</title>
+    <script type="application/yaml">
+     !inclusion
+     selector: head > *:not([charset])
+    </script>
+    <link rel="stylesheet" href="downloads.css"/>
+  </head>
+  <body>
+    <script type="application/yaml">
+     !inclusion
+     selector: header
+    </script>
+
+    <main>
+      <h1>Downloads</h1>
+
+      <p>If you are not sure which to download, choose “Windows (Intel/AMD processors)”.</p>
+
+      <ul>
+        <li><a href="https://github.com/plotance/plotance/releases/latest/download/plotance-win-x64.zip">Windows (Intel/AMD processors)</a></li>
+        <li><a href="https://github.com/plotance/plotance/releases/latest/download/plotance-win-arm64.zip">Windows (Snapdragon and other ARM processors)</a></li>
+        <li><a href="https://github.com/plotance/plotance/releases/latest/download/plotance-osx-arm64.zip">macOS</a></li>
+        <li><a href="https://github.com/plotance/plotance/releases/latest/download/plotance-linux-x64.zip">Linux (x86-64)</a></li>
+        <li><a href="https://github.com/plotance/plotance/releases/latest/download/plotance-linux-arm64.zip">Linux (AArch64)</a></li>
+      </ul>
+
+      <p>After downloading, extract the archive and run the <code>plotance</code> executable in the command prompt or terminal.</p>
+
+      <p>Windows:</p>
+      <x-blockcode class="example-box">
+        <x-l><span class="code-identifier">.\plotance</span> <span class="code-keyword">--help</span></x-l>
+      </x-blockcode>
+
+      <p>Linux or macOS:</p>
+      <x-blockcode class="example-box">
+        <x-l><span class="code-identifier">./plotance</span> <span class="code-keyword">--help</span></x-l>
+      </x-blockcode>
+
+      <p>For more information, see the <a href="documentation.html">documentation</a>.</p>
+    </main>
+
+    <script type="application/yaml">
+     !inclusion
+     selector: footer
+    </script>
+  </body>
+</html>

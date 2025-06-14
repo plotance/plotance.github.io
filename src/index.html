@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Plotance - Markdown + SQL to PowerPoint converter</title>
+    <meta name="description" content="Plotance - A cross-platform commandline tool converting Markdown + SQL to plain editable PowerPoint presentation with charts powered by DuckDB"/>
+    <script type="application/yaml">
+     !inclusion
+     selector: head > *:not([charset])
+    </script>
+    <link rel="stylesheet" href="index.css"/>
+  </head>
+  <body>
+    <script type="application/yaml">
+     !inclusion
+     selector: header
+    </script>
+
+    <main>
+      <section class="tag-line">
+        <p>
+          <span class="tag-line-phrase">A cross-platform command-line tool</span>
+          <span class="tag-line-phrase">converting <span class="no-break"><strong>Markdown</strong> + <strong>SQL</strong></span></span>
+          <span class="tag-line-phrase">into plain editable <strong>PowerPoint</strong> presentations with charts,</span>
+          <span class="tag-line-phrase">powered by <strong>DuckDB</strong>.</span>
+        </p>
+      </section>
+
+      <section class="example" >
+        <div class="examples">
+          <x-blockcode class="example-box">
+            <x-l><span class="code-marker">##</span> <span class="code-heading">Hello!</span></x-l>
+            <x-l></x-l>
+            <x-l><span class="code-marker">```</span><span class="code-identifier">plotance</span></x-l>
+            <x-l><span class="code-key">format</span>: <span class="code-string">bar</span></x-l>
+            <x-l><span class="code-key">query</span>: |</x-l>
+            <x-l>  <span class="code-keyword">SELECT</span> *</x-l>
+            <x-l>  <span class="code-keyword">FROM</span> <span class="code-string">'https://example.org/data.csv'</span></x-l>
+            <x-l><span class="code-marker">```</span></x-l>
+            <x-l></x-l>
+            <x-l>Hello, Plotance!</x-l>
+          </x-blockcode>
+          <div class="example-box"><a href="examples/hello/hello.pptx"><picture><source srcset="examples/hello/hello_dark.svg" media="(prefers-color-scheme: dark)"/><img src="examples/hello/hello.svg" alt="hello.pptx"/></picture></a></div>
+        </div>
+        <p><a href="examples.html">More examples</a></p>
+      </section>
+
+      <section class="rationale">
+        <h2>Why PowerPoint? Why not <a href="https://evidence.dev/">Evidence</a>?</h2>
+        <p>Your boss demands a monthly report filled with charts, in PowerPoint format, using the corporate template file.</p>
+        <p>The report needs to be editable because the slides and graphs will be reused by random colleagues all over the place.</p>
+      </section>
+
+      <section class="features">
+        <h2>Features</h2>
+
+        <section>
+          <h3>Versatile Data Connectivity</h3>
+          <p>Queries CSV, JSON, Parquet, and other files hosted on web servers or S3.</p>
+        </section>
+
+        <section>
+          <h3>Professional Chart Generation</h3>
+          <p>Creates bar, line, scatter, and area charts with comprehensive styling options.</p>
+        </section>
+
+        <section>
+          <h3>Tabular Data Display</h3>
+          <p>Presents data in tables with customizable styles.</p>
+        </section>
+
+        <section>
+          <h3>Custom PowerPoint Templates</h3>
+          <p>Supports corporate PowerPoint template files.</p>
+        </section>
+
+        <section>
+          <h3>Flexible Layout System</h3>
+          <p>Divides slides into rows and columns to organize text blocks and charts.</p>
+        </section>
+
+        <section>
+          <h3>Cross-Platform Compatibility</h3>
+          <p>Works seamlessly on Windows, macOS, and Linux.</p>
+        </section>
+
+        <section>
+          <h3>Open Source License</h3>
+          <p>Released under the MIT License, free for both personal and commercial use.</p>
+        </section>
+      </section>
+
+      <section class="downloads">
+        <h2>Downloads</h2>
+        <ul>
+          <li><a href="https://github.com/plotance/plotance/releases/latest/download/plotance-win-x64.zip">Windows (Intel/AMD processors)</a></li>
+          <li><a href="https://github.com/plotance/plotance/releases/latest/download/plotance-win-arm64.zip">Windows (Snapdragon and other ARM processors)</a></li>
+          <li><a href="https://github.com/plotance/plotance/releases/latest/download/plotance-osx-arm64.zip">macOS</a></li>
+          <li><a href="https://github.com/plotance/plotance/releases/latest/download/plotance-linux-x64.zip">Linux (x86-64)</a></li>
+          <li><a href="https://github.com/plotance/plotance/releases/latest/download/plotance-linux-arm64.zip">Linux (AArch64)</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <script type="application/yaml">
+     !inclusion
+     selector: footer
+    </script>
+  </body>
+</html>

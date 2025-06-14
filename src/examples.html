@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Plotance - Examples</title>
+    <script type="application/yaml">
+     !inclusion
+     selector: head > *:not([charset])
+    </script>
+    <link rel="stylesheet" href="examples.css"/>
+  </head>
+  <body>
+    <script type="application/yaml">
+     !inclusion
+     selector: header
+    </script>
+
+    <main>
+      <h1>Examples</h1>
+
+      <p><small>The thumbnail images are SVG files exported from PowerPoint with font adjustments. The text in the thumbnails may appear differently depending on the fonts installed on your system.</small></p>
+
+      <section>
+        <h2>Hello!</h2>
+        <ul>
+          <li><a href="./examples/hello/hello.pptx"><img src="./examples/hello/hello.svg" alt="hello.pptx"/></a></li>
+          <li><a href="./examples/hello/hello.md">hello.md</a></li>
+          <li><a href="./examples/hello/hello.csv">hello.csv</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Variables and Template file</h2>
+        <ul>
+          <li><a href="./examples/pageviews/pageviews.pptx"><img src="./examples/pageviews/pageviews.svg" alt="pageviews.pptx"/></a></li>
+          <li><a href="./examples/pageviews/pageviews.md">pageviews.md</a></li>
+          <li><a href="./examples/pageviews/access_2025-01.csv.gz">access_2025-01.csv.gz</a></li>
+          <li><a href="./examples/pageviews/theme.pptx">theme.pptx</a></li>
+          <li>
+            <x-blockcode class="example-box">
+              <x-l><span class="code-comment"># command</span></x-l>
+              <x-l><span class="code-identifier">plotance</span> <span class="code-keyword">--template</span> theme.pptx <span class="code-keyword">--arg</span> <span class="code-key">year</span> 2025 <span class="code-keyword">--arg</span> <span class="code-key">month</span> 01 pageviews.md</x-l>
+            </x-blockcode>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Grid Layout</h2>
+        <ul>
+          <li><a href="./examples/grid/grid.pptx"><img src="./examples/grid/grid.svg" alt="grid.pptx"/></a></li>
+          <li><a href="./examples/grid/grid.md">grid.md</a></li>
+          <li><a href="./examples/grid/grid1.csv">grid1.csv</a></li>
+          <li><a href="./examples/grid/grid2.csv">grid2.csv</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Sections</h2>
+
+        <ul>
+          <li><a href="./examples/title_and_sections/title_and_sections.pptx"><img src="./examples/title_and_sections/title_and_sections/slide1.svg" alt="title_and_sections.pptx"/> <img src="./examples/title_and_sections/title_and_sections/slide2.svg" alt=""/> <img src="./examples/title_and_sections/title_and_sections/slide3.svg" alt=""/> <img src="./examples/title_and_sections/title_and_sections/slide4.svg" alt=""/></a></li>
+          <li><a href="./examples/title_and_sections/title_and_sections.md">title_and_sections.md</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Charts</h2>
+        <ul>
+          <li><a href="./examples/chart_types/chart_types.pptx"><img src="./examples/chart_types/chart_types.svg" alt="chart_types.pptx"/></a></li>
+          <li><a href="./examples/chart_types/chart_types.md">chart_types.md</a></li>
+          <li><a href="./examples/chart_types/bar.csv">bar.csv</a></li>
+          <li><a href="./examples/chart_types/line.csv">line.csv</a></li>
+          <li><a href="./examples/chart_types/area.csv">area.csv</a></li>
+          <li><a href="./examples/chart_types/scatter.csv">scatter.csv</a></li>
+          <li><a href="./examples/chart_types/bubble.csv">bubble.csv</a></li>
+          <li><a href="./examples/chart_types/percentage.csv">percentage.csv</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Text Styles</h2>
+        <ul>
+          <li><a href="./examples/text_styles/text_styles.pptx"><img src="./examples/text_styles/text_styles/slide1.svg" alt="text_styles.pptx"/> <img src="./examples/text_styles/text_styles/slide2.svg" alt=""/></a></li>
+          <li><a href="./examples/text_styles/text_styles.md">text_styles.md</a></li>
+          <li><a href="./examples/text_styles/image.jpg">image.jpg</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Data Table</h2>
+        <ul>
+          <li><a href="./examples/table/table.pptx"><img src="./examples/table/table.svg" alt="table.pptx"/></a></li>
+          <li><a href="./examples/table/table.md">table.md</a></li>
+          <li><a href="./examples/table/table.csv">table.csv</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <script type="application/yaml">
+      !inclusion
+      selector: footer
+    </script>
+  </body>
+</html>

@@ -1,0 +1,75 @@
+main {
+  > section:first-of-type {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 40rem) {
+  .tag-line-phrase {
+    display: block;
+  }
+}
+
+@media (min-width: 14rem) {
+  .no-break {
+    text-wrap: nowrap;
+  }
+}
+
+.rationale > h2 {
+  color: var(--text-color);
+
+  a {
+    color: var(--text-color);
+  }
+}
+
+h2, h3, h4, h5, h6 {
+  color: var(--heading-color);
+
+  font-size: 1rem;
+
+  a {
+    color: var(--heading-color);
+  }
+}
+
+.example-box {
+  flex-grow: 1;
+  flex-basis: 300px;
+  margin: 0;
+
+  img {
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--example-box-border-color);
+    max-width: 100%;
+  }
+}
+
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 16px;
+  column-gap: 8px;
+
+  > h2 {
+    flex-basis: 100%;
+    flex-grow: 2;
+  }
+
+  > * {
+    flex-basis: 360px;
+    flex-grow: 1;
+  }
+
+  > section {
+    padding: 0;
+  }
+}
