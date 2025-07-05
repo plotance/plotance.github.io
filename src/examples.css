@@ -8,7 +8,7 @@ a > img {
   border-color: var(--example-box-border-color);
 }
 
-main ul {
+ul.files {
   padding: 0;
 
   > li {

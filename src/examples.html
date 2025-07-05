@@ -22,7 +22,7 @@
 
       <section>
         <h2>Hello!</h2>
-        <ul>
+        <ul class="files">
           <li><a href="./examples/hello/hello.pptx"><img src="./examples/hello/hello.svg" alt="hello.pptx"/></a></li>
           <li><a href="./examples/hello/hello.md">hello.md</a></li>
           <li><a href="./examples/hello/hello.csv">hello.csv</a></li>
@@ -31,7 +31,7 @@
 
       <section>
         <h2>Variables and Template file</h2>
-        <ul>
+        <ul class="files">
           <li><a href="./examples/pageviews/pageviews.pptx"><img src="./examples/pageviews/pageviews.svg" alt="pageviews.pptx"/></a></li>
           <li><a href="./examples/pageviews/pageviews.md">pageviews.md</a></li>
           <li><a href="./examples/pageviews/access_2025-01.csv.gz">access_2025-01.csv.gz</a></li>
@@ -47,7 +47,7 @@
 
       <section>
         <h2>Grid Layout</h2>
-        <ul>
+        <ul class="files">
           <li><a href="./examples/grid/grid.pptx"><img src="./examples/grid/grid.svg" alt="grid.pptx"/></a></li>
           <li><a href="./examples/grid/grid.md">grid.md</a></li>
           <li><a href="./examples/grid/grid1.csv">grid1.csv</a></li>
@@ -58,7 +58,7 @@
       <section>
         <h2>Sections</h2>
 
-        <ul>
+        <ul class="files">
           <li><a href="./examples/title_and_sections/title_and_sections.pptx"><img src="./examples/title_and_sections/title_and_sections/slide1.svg" alt="title_and_sections.pptx"/> <img src="./examples/title_and_sections/title_and_sections/slide2.svg" alt=""/> <img src="./examples/title_and_sections/title_and_sections/slide3.svg" alt=""/> <img src="./examples/title_and_sections/title_and_sections/slide4.svg" alt=""/></a></li>
           <li><a href="./examples/title_and_sections/title_and_sections.md">title_and_sections.md</a></li>
         </ul>
@@ -66,7 +66,7 @@
 
       <section>
         <h2>Charts</h2>
-        <ul>
+        <ul class="files">
           <li><a href="./examples/chart_types/chart_types.pptx"><img src="./examples/chart_types/chart_types.svg" alt="chart_types.pptx"/></a></li>
           <li><a href="./examples/chart_types/chart_types.md">chart_types.md</a></li>
           <li><a href="./examples/chart_types/bar.csv">bar.csv</a></li>
@@ -80,7 +80,7 @@
 
       <section>
         <h2>Text Styles</h2>
-        <ul>
+        <ul class="files">
           <li><a href="./examples/text_styles/text_styles.pptx"><img src="./examples/text_styles/text_styles/slide1.svg" alt="text_styles.pptx"/> <img src="./examples/text_styles/text_styles/slide2.svg" alt=""/></a></li>
           <li><a href="./examples/text_styles/text_styles.md">text_styles.md</a></li>
           <li><a href="./examples/text_styles/image.jpg">image.jpg</a></li>
@@ -89,10 +89,50 @@
 
       <section>
         <h2>Data Table</h2>
-        <ul>
+        <ul class="files">
           <li><a href="./examples/table/table.pptx"><img src="./examples/table/table.svg" alt="table.pptx"/></a></li>
           <li><a href="./examples/table/table.md">table.md</a></li>
           <li><a href="./examples/table/table.csv">table.csv</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Using Plotance as a Tool</h2>
+
+
+        <p>Plotance can be used as a tool for generating .pptx files in Bash/PowerShell scripts. This example generates a catalog of Azure service icons. Due to license restrictions for Azure icons, we do not provide the resulting file.</p>
+
+        <p>The PowerShell script <code>Generate-AzureIconsSlides.ps1</code> performs the following steps:</p>
+
+        <ol>
+          <li>Downloads the ZIP archive of icons and extracts the files.</li>
+          <li>Downloads the Plotance executable.</li>
+          <li>Generates the Markdown file.</li>
+          <li>Converts the Markdown file to the presentation file.</li>
+        </ol>
+
+        <p>On windows, you may need to adjust the execution policy to run PowerShell scripts:</p>
+
+        <x-blockcode class="example-box">
+          <x-l><span class="code-comment"># Save the current execution policy for the current shell session.</span></x-l>
+          <x-l><span class="code-key">$oldExecutionPolicy</span> = <span class="code-identifier">Get-ExecutionPolicy</span> <span class="code-keyword">-Scope</span> Process</x-l>
+          <x-l></x-l>
+          <x-l><span class="code-comment"># Set the policy to "RemoteSigned", allowing local scripts and signed downloaded scripts to run.</span></x-l>
+          <x-l><span class="code-identifier">Set-ExecutionPolicy</span> RemoteSigned <span class="code-keyword">-Scope</span> Process</x-l>
+          <x-l></x-l>
+          <x-l><span class="code-comment"># Unblock the script to allow execution.</span></x-l>
+          <x-l><span class="code-identifier">Unblock-File</span> Generate-AzureIconsSlides.ps1</x-l>
+          <x-l></x-l>
+          <x-l><span class="code-comment"># Execute the script.</span></x-l>
+          <x-l><span class="code-identifier">.\Generate-AzureIconsSlides.ps1</span></x-l>
+          <x-l></x-l>
+          <x-l><span class="code-comment"># Restore the original execution policy.</span></x-l>
+          <x-l><span class="code-identifier">Set-ExecutionPolicy</span> <span class="code-key">$oldExecutionPolicy</span> <span class="code-keyword">-Scope</span> Process</x-l>
+        </x-blockcode>
+
+        <ul class="files">
+          <li><img src="./examples/azure_icons/azure_icons.svg" alt=""/></li>
+          <li><a href="./examples/azure_icons/Generate-AzureIconsSlides.ps1">Generate-AzureIconsSlides.ps1</a></li>
         </ul>
       </section>
     </main>
