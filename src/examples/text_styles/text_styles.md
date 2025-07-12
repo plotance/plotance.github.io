@@ -34,6 +34,8 @@ small centered text
 Image block:\
 Inline images are not supported due to limitation of PowerPoint.
 
+<?plotance body_horizontal_align: left ?>
+
 ![Sky Clouds](image.jpg)
 
 ## Language setting
