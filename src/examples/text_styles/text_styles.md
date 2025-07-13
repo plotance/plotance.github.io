@@ -40,8 +40,6 @@ Inline images are not supported due to limitation of PowerPoint.
 
 ## Language setting
 
-<?plotance body_horizontal_align: left ?>
-
 <?plotance rows: 2:1:1:1:1 ?>
 
 “Same” characters are rendered as different glyphs depending on `language`
