@@ -73,6 +73,12 @@
           <li><code>mapping</code>: A YAML mapping (dictionary) of string keys to string values.</li>
           <li><code>length-weights</code>: A colon-separated list of <code>number</code> or <code>length</code> values.</li>
           <li><code>axis-unit</code>: A <code>number</code> with an optional time unit. The number and unit may be separated by spaces or tabs. Valid units include <code>days</code>, <code>hours</code>, <code>minutes</code>, <code>mins</code>, <code>seconds</code>, <code>secs</code>, or their singular forms.</li>
+          <li><code>layout-direction</code>: One of the following values:
+            <ul>
+              <li><code>row</code> (blocks are laid out from left-to-right, top-to-bottom)</li>
+              <li><code>column</code> (blocks are laid out from top-to-bottom, left-to-right)</li>
+            </ul>
+          </li>
           <li><code>vertical-alignment</code>: One of the following alignment values:
             <ul>
               <li><code>top</code> (aligns content to the top of the container)</li>
@@ -146,7 +152,10 @@
               <td><code>length-weights</code></td>
               <td></td>
               <td>
-                <p>Defines the height of each row in the slide using a colon-separated list of <code>number</code> or <code>length</code> values. Numeric values represent relative height proportions, while length values specify exact heights. Values are assigned to rows sequentially in order of appearance. If there are more rows than specified values, the default value <code>1</code> is assigned to the remaining rows. When <code>rows</code> is specified multiple times within a single slide, new values are appended to the existing list of values. The row specifications reset with each new slide; unassigned values do not carry forward.</p>
+                <p>Defines the height of each row in the slide using a colon-separated list of <code>number</code> or <code>length</code> values. Numeric values represent relative height proportions, while length values specify exact heights. Values are assigned to rows sequentially in order of appearance. The exact behavior changes depending on <code>layout_direction</code>.</p>
+                <p>When <code>layout_direction</code> is <code>row</code>: if there are more rows than specified values, the default value <code>1</code> is assigned to the remaining rows. When <code>rows</code> is specified multiple times within a single slide, new values are appended to the existing list of values.</p>
+                <p>When <code>layout_direction</code> is <code>column</code>: when the number of visible content blocks matches the length of this list, a new column automatically begins. You can specify different row configurations for each column. If you specify a new <code>rows</code> value in the middle of a column, it completely replaces the previous configuration rather than appending to it.</p>
+                <p>The row specifications reset with each new slide; unassigned values do not carry forward.</p>
                 <p>Example:</p>
                 <x-blockcode class="example-box">
                   <x-l><span class="code-marker">&lt;?</span><span class="code-identifier">plotance</span> <span class="code-key">row_gap</span>: <span class="code-string">1cm</span><span class="code-marker">?&gt;</span></x-l>
@@ -168,11 +177,19 @@
               <td><code>length-weights</code></td>
               <td><code>1</code></td>
               <td>
-                <p>Defines the width distribution and count of columns within a row using a colon-separated list of <code>number</code> or <code>length</code> values. Numeric values indicate relative proportions, while length values specify exact widths. Plotance assigns these values sequentially to columns as they appear. When the number of visible content blocks matches the length of this list, a new row automatically begins. You can specify different column configurations for each row. Unlike with rows, if you specify a new <code>columns</code> value in the middle of a row, it completely replaces the previous configuration rather than appending to it. Column specifications reset at the beginning of each new slide.</p>
+                <p>Defines the width of columns in the slide using a colon-separated list of <code>number</code> or <code>length</code> values. Numeric values indicate relative proportions, while length values specify exact widths. Plotance assigns these values sequentially to columns as they appear. The exact behavior changes depending on <code>layout_direction</code>.</p>
+                <p>When <code>layout_direction</code> is <code>row</code>: when the number of visible content blocks matches the length of this list, a new row automatically begins. You can specify different column configurations for each row. If you specify a new <code>columns</code> value in the middle of a row, it completely replaces the previous configuration rather than appending to it.</p>
+                <p>When <code>layout_direction</code> is <code>column</code>: if there are more columns than specified values, the default value <code>1</code> is assigned to the remaining columns. When <code>columns</code> is specified multiple times within a single slide, new values are appended to the existing list of values.</p>
+                <p>Column specifications reset at the beginning of each new slide; unassigned values do not carry forward.</p>
                 <p>Width calculations follow the same principles as row height calculations, with <code>column_gap</code> being used to determine spacing between columns.</p>
               </td>
             </tr>
-
+            <tr>
+              <th><code>layout_direction</code></th>
+              <td><code>layout-direction</code></td>
+              <td><code>row</code></td>
+              <td><p>Specifies the direction of block layouts. When the value is <code>row</code>, the blocks are laid out from left-to-right, top-to-bottom. When the value is <code>column</code>, the blocks are laid out from top-to-bottom, left-to-right. This option does not affect the layout of tables.</p></td>
+            </tr>
             <tr>
               <th><code>row_gap</code></th>
               <td><code>length</code></td>

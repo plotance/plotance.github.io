@@ -12,7 +12,7 @@
 .PARAMETER GridRows
     Number of rows per grid (default: 4)
 
-.PARAMETER GridCols
+.PARAMETER GridColumns
     Number of columns per grid (default: 4)
 
 .PARAMETER IconHeight
@@ -22,12 +22,12 @@
     .\Generate-AzureIconsSlides.ps1
 
 .EXAMPLE
-    .\Generate-AzureIconsSlides.ps1 -OutputName "my_azure_icons" -GridRows 3 -GridCols 5
+    .\Generate-AzureIconsSlides.ps1 -OutputName "my_azure_icons" -GridRows 3 -GridColumns 5
 #>
 
 param(
     [int]$GridRows = 4,
-    [int]$GridCols = 4,
+    [int]$GridColumns = 4,
     [string]$IconHeight = "1cm"
 )
 
@@ -220,11 +220,11 @@ function New-MarkdownContent {
     param(
         [hashtable]$Categories,
         [int]$Rows,
-        [int]$Cols,
+        [int]$Columns,
         [string]$Height
     )
 
-    $iconsPerSlide = $Rows * $Cols
+    $iconsPerSlide = $Rows * $Columns
     $markdown = @()
 
     # Header
@@ -232,6 +232,7 @@ function New-MarkdownContent {
     $markdown += ""
     $markdown += "<?plotance"
     $markdown += " slide_level: 3"
+    $markdown += " layout_direction: column"
     $markdown += " body_horizontal_align: center"
     $markdown += "?>"
     $markdown += ""
@@ -260,42 +261,32 @@ function New-MarkdownContent {
 
             # Layout settings
             $rowSpec = (@($Height, "1") * $Rows) -join ":"
-            $colSpec = (@("1") * $Cols) -join ":"
+            $columnSpec = (@("1") * $Columns) -join ":"
 
             $markdown += "<?plotance"
             $markdown += " rows: $rowSpec"
-            $markdown += " columns: $colSpec"
+            $markdown += " columns: $columnSpec"
             $markdown += " body_font_scale: 0.5"
             $markdown += "?>"
             $markdown += ""
 
-            for ($rowIndex = 0; $rowIndex -lt $Rows; $rowIndex++) {
-                # Icons row
-                for ($colIndex = 0; $colIndex -lt $Cols; $colIndex++) {
-                    $iconIndex = $Cols * $rowIndex + $colIndex
+            for ($columnIndex = 0; $columnIndex -lt $Columns; $columnIndex++) {
+                for ($rowIndex = 0; $rowIndex -lt $Rows; $rowIndex++) {
+                    $iconIndex = $Columns * $rowIndex + $columnIndex
 
                     if ($iconIndex -lt $slideIcons.Count) {
                         $icon = $slideIcons[$iconIndex]
                         $iconPath = $icon.Path -replace '\\', '/'
                         $markdown += "![$($icon.ServiceName)](<$iconPath>)"
-                    }
-                    else {
-                        $markdown += "&nbsp;"
-                    }
-                    $markdown += ""
-                }
-
-                # Service names row
-                for ($colIndex = 0; $colIndex -lt $Cols; $colIndex++) {
-                    $iconIndex = $Cols * $rowIndex + $colIndex
-
-                    if ($iconIndex -lt $slideIcons.Count) {
-                        $icon = $slideIcons[$iconIndex]
+                        $markdown += ""
                         $markdown += $icon.ServiceName
                     }
                     else {
                         $markdown += "&nbsp;"
+                        $markdown += ""
+                        $markdown += "&nbsp;"
                     }
+
                     $markdown += ""
                 }
             }
@@ -358,7 +349,7 @@ function Main {
     New-MarkdownContent `
       -Categories $categories `
       -Rows $GridRows `
-      -Cols $GridCols `
+      -Columns $GridColumns `
       -Height $IconHeight `
       | Out-File -FilePath $markdownFile -Encoding UTF8
 
