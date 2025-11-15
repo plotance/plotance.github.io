@@ -72,14 +72,14 @@
             <x-l><span class="code-identifier">git</span> <span class="code-identifier">clone</span> https://github.com/plotance/plotance.git</x-l>
             <x-l><span class="code-identifier">cd</span> plotance</x-l>
             <x-l><span class="code-identifier">dotnet</span> <span class="code-identifier">build</span></x-l>
-            <x-l><span class="code-identifier">dotnet</span> Plotance/bin/Release/net8.0/plotance.dll <span class="code-keyword">--version</span></x-l>
+            <x-l><span class="code-identifier">dotnet</span> Plotance/bin/Release/net10.0/plotance.dll <span class="code-keyword">--version</span></x-l>
           </x-blockcode>
 
           <p>To create a single binary executable, use the following commands:</p>
 
           <x-blockcode class="example-box">
             <x-l><span class="code-identifier">dotnet</span> <span class="code-identifier">publish</span></x-l>
-            <x-l><span class="code-identifier">./Plotance/bin/Release/net8.0/linux-x64/publish/plotance</span> <span class="code-keyword">--version</span></x-l>
+            <x-l><span class="code-identifier">./Plotance/bin/Release/net10.0/linux-x64/publish/plotance</span> <span class="code-keyword">--version</span></x-l>
           </x-blockcode>
 
           <p>Run <code>create_release_archives.ps1</code> in PowerShell to create release ZIP archives for all platforms.</p>
